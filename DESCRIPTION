@@ -1,7 +1,7 @@
 Package: NACHO
 Type: Package
 Title: NanoString Quality Control Dashboard
-Version: 0.5.5
+Version: 0.5.6
 Authors@R: c(
     person(given = "Mickaël", family = "Canouil", role = c("aut", "cre"), email = "mickael.canouil@cnrs.fr", 
       comment = c(ORCID = "0000-0002-3396-4549")
@@ -32,10 +32,10 @@ RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2019-04-23 14:46:39 UTC; mcanouil
+Packaged: 2019-04-29 09:30:01 UTC; mcanouil
 Author: Mickaël Canouil [aut, cre] (<https://orcid.org/0000-0002-3396-4549>),
   Roderick Slieker [aut] (<https://orcid.org/0000-0003-0961-9152>),
   Gerard Bouland [aut]
 Maintainer: Mickaël Canouil <mickael.canouil@cnrs.fr>
 Repository: CRAN
-Date/Publication: 2019-04-28 09:00:02 UTC
+Date/Publication: 2019-04-29 19:30:13 UTC

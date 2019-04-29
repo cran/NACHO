@@ -1,7 +1,7 @@
-4c35306fa5581daf314f42cc7340011b *DESCRIPTION
+24192bdbaabd8e903adc180034cd7562 *DESCRIPTION
 3000208d539ec061b899bce1d9ce9404 *LICENSE
 ddddd39ab5422ec7e39a268ed9d13b28 *NAMESPACE
-bf0fb17f2e0a1367e59176dc2e49041d *NEWS.md
+d61be973de3abc25774ebfee081c638d *NEWS.md
 19d387607f57b6b724bf1cc1d2421540 *R/GSE74821.R
 ffc1b98e93530521830fcc7e3d610bc8 *R/details_outlier.R
 553332d896f52fd3da5b6fb2309ad310 *R/exclude_outliers.R
@@ -29,9 +29,9 @@ afe83aa3919d942b512eb9e124520fe0 *R/summarise.R
 831a05b6dfc6e4ca961263725f41fea1 *R/visualise.R
 94506efd7b66100c6d52d47abb20b58f *build/vignette.rds
 f724d1d6a84eda80d8f85e8824d91f5c *data/GSE74821.rda
-9d50401d2887a0c09f8ef4e1e830725d *inst/doc/NACHO.R
-79667e5112100b721aeae947e08b01a0 *inst/doc/NACHO.Rmd
-5949e2afe04c0ad8c8ccba183d3cd3af *inst/doc/NACHO.html
+b1fcfe1edecf5a7aeeb7423b92fe10c7 *inst/doc/NACHO.R
+646c04b307eff909006d270c17466924 *inst/doc/NACHO.Rmd
+2135341a90c5096af2ff5a6f1158b97e *inst/doc/NACHO.html
 c1a7dadc4b0c47904ef5de0483000488 *man/GSE74821.Rd
 6255c3c818727f88baa5f02eb150187c *man/details_outlier.Rd
 966ef3a341c022d40932a8891c5b8841 *man/exclude_outliers.Rd
@@ -61,8 +61,8 @@ d08dfad20a4dcaed6c67d494ef9beeb3 *man/read_tags.Rd
 ac58c06512a48e65d8a359a0d802a5b7 *man/visualise.Rd
 b9c4dfadd086018c4daa1457a5613cb9 *tests/testthat.R
 c2b39e59e84696fa947d6884e56f10fe *tests/testthat/test-normalise.R
-63e2e3460b673ff329eccce2c6c51161 *tests/testthat/test-summarise.R
+aac32c1923573cf3143be2f92ed8bddd *tests/testthat/test-summarise.R
 b906acb62a657f2244b8582388e9dc45 *tests/testthat/test-visualise.R
-79667e5112100b721aeae947e08b01a0 *vignettes/NACHO.Rmd
+646c04b307eff909006d270c17466924 *vignettes/NACHO.Rmd
 3c1eed7ad08d5552c80753c58556a315 *vignettes/nacho.bib
 2a469db1311a22519d38d9a0fe15c046 *vignettes/nacho_hex.png
