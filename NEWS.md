@@ -1,9 +1,44 @@
+# NACHO 0.6.0
+
+## Citation
+
+* Add citation (#8).
+
+## New features
+
+* `autoplot()` allows to plot a chosen QC plot available in the shiny app (`visualise()`) and/or
+  in the HTML report (`render()`).
+* `print()` allows to print the structure or to print text and figures formatted using markdown
+  (mainly to be used in a Rmakrdown chunk).
+* `render()` render figures from `visualise()` in a HTML friendly output.
+
+## Minor improvements and fixes
+
+* In `R/read_rcc.R`, `R/summarise.R`, 
+  - fix issue (#1) when PlexSet RCC files could not be read.
+  - update code to use `tidyr` 1.0.0 (#9).
+* In `R/summarise.R`, 
+  - object returned is of S3 class "nacho" for ease of use of `autoplot()`.
+  - update code to use `tidyr` 1.0.0 (#9). 
+* In `R/normalise.R`, 
+    - object returned is of S3 class "nacho" for ease of use of `autoplot()`.
+    - fix missing `outliers_thresholds` component in returned object.
+* In `R/visualise.R`, 
+    - minor code changes.
+    - return `app` object in non-interactive session.
+* In `vignettes/NACHO.Rmd`, 
+    - fix several typos.
+    - add sections for `autoplot()`, `print()` and `render()` (#7).
+    - fix chunk output (*i.e.*, remove default `results = "asis"`).
+    - fix `normalise()` call with custom housekeeping genes (*i.e.*, set `housekeeping_predict = FALSE`) (#10).
+
+
 # NACHO 0.5.6
 
 ## Minor improvements and fixes
 
 * In `tests/testthat/test-summarise.R`, add condition to handle when `GEOQuery` is down and cannot retrieve online data.
-* In `vignettes/nACHO.Rmd`, add condition to handle when `GEOQuery` is down and cannot retrieve online data.
+* In `vignettes/NACHO.Rmd`, add condition to handle when `GEOQuery` is down and cannot retrieve online data.
 
 
 # NACHO 0.5.5

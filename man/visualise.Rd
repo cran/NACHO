@@ -3,15 +3,17 @@
 \name{visualise}
 \alias{visualise}
 \alias{visualize}
-\title{visualise}
+\title{Visualise quality-control metrics using a shiny app}
 \usage{
 visualise(nacho_object)
 }
 \arguments{
-\item{nacho_object}{[list] List obtained from \code{\link{summarise}} or \code{\link{normalise}}.}
+\item{nacho_object}{[\link{list}] List obtained from \link{summarise} or \link{normalise}.}
 }
 \description{
-visualise
+This function allows to visualise several quality-control metrics
+in an interactive \link{shiny} application, in which thresholds can be customised
+and exported to the global environment.
 }
 \examples{
 

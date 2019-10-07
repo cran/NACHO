@@ -1,10 +1,11 @@
 #' read_rcc
 #'
-#' @param file [character] The name of the RCC file which the data are to be read from.
+#' @param file [[character]] The name of the RCC file which the data are to be read from.
 #'
 #' @keywords internal
+#' @usage NULL
 #'
-#' @return [tibble]
+#' @return [[tibble]]
 read_rcc <- function(file) {
   tags <- c(
     "Header", "Sample_Attributes", "Lane_Attributes", "Code_Summary", "Messages"
@@ -26,7 +27,7 @@ read_rcc <- function(file) {
       control_probes <- .data[.data[["CodeClass"]]%in%c("Negative", "Positive"), ]
       sample_list <- split(
         x = .data[!.data[["CodeClass"]]%in%c("Negative", "Positive"), ],
-        f = .data[["CodeClass"]][!.data[["CodeClass"]]%in%c("Negative", "Positive")]
+        f = gsub("Endogenous|Housekeeping", "", .data[["CodeClass"]][!.data[["CodeClass"]]%in%c("Negative", "Positive")])
       )
       .data <- lapply(X = sample_list, FUN = rbind, control_probes)
     }
@@ -36,19 +37,18 @@ read_rcc <- function(file) {
   rcc_tbl <- tibble::as_tibble(rcc_list)
 
   if (length(rcc_tbl[["Code_Summary"]][[1]])==8) {
-    column_to_unnest <- "Code_Summary"
-    rcc_tbl <- tidyr::unnest(data = rcc_tbl, Code_Summary = get(column_to_unnest[1]), .drop = FALSE)
+    # column_to_unnest <- "Code_Summary"
+    rcc_tbl <- tidyr::unnest(data = rcc_tbl, cols = "Code_Summary")
     rcc_tbl[["plexset_id"]] <- paste0("S", 1:8)
   }
 
-  # remove NOTE: 'no visible binding for global variable' though it's a bit ugly
-  column_to_unnest <- c("Header", "Sample_Attributes", "Lane_Attributes", "Messages")
-  tidyr::unnest(
+  # column_to_unnest <- c("Header", "Sample_Attributes", "Lane_Attributes", "Messages")
+
+  out <- tidyr::unnest(
     data = rcc_tbl,
-    Header = get(column_to_unnest[1]),
-    Sample_Attributes = get(column_to_unnest[2]),
-    Lane_Attributes = get(column_to_unnest[3]),
-    Messages = get(column_to_unnest[4]),
-    .drop = FALSE
+    cols = c("Header", "Sample_Attributes", "Lane_Attributes")
   )
+  out[["Messages"]] <- gsub("messages_;", "", sapply(out[["Messages"]], names))
+
+  out
 }

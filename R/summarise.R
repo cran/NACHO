@@ -1,49 +1,52 @@
-#' summarise
+#' Summarise data from RCC NanoString files (and normalise them)
 #'
-#' @param data_directory [character] A character string of the directory where the data are stored.
-#' @param ssheet_csv [character/data.frame] Either a string with the name of the CSV of the samplesheet
-#'   or the samplesheet as a \code{data.frame}.
+#' This function is used to preprocess the data from NanoString nCounter.
+#'
+#' @param data_directory [[character]] A character string of the directory where the data are stored.
+#' @param ssheet_csv [[character]] or [[data.frame]] Either a string with the name of the CSV of the samplesheet
+#'   or the samplesheet as a `data.frame`.
 #'   Should contain a column that matches the file names in the folder.
-#' @param id_colname [character] Character string of the column in \code{ssheet_csv} that matches
-#'   the file names in \code{data_directory}.
-#' @param housekeeping_genes [vector(character)] A vector of names of the miRNAs/mRNAs
-#'   that should be used as housekeeping genes. Default is \code{NULL}.
-#' @param housekeeping_predict [logical] Boolean to indicate whether the housekeeping genes
-#'   should be predicted (\code{TRUE}) or not (\code{FALSE}). Default is \code{FALSE}.
-#' @param housekeeping_norm [logical] Boolean to indicate whether the housekeeping normalisation should be performed.
-#'   Default is \code{TRUE}.
-#' @param normalisation_method [character] Either \code{"GEO"} or \code{"GLM"}.
-#'   Character string to indicate normalisation using the geometric mean (\code{"GEO"})
-#'   or a generalized linear model (\code{"GLM"}). Default is \code{"GEO"}.
-#' @param n_comp [numeric] Number indicating the number of principal components to compute.
-#'  Cannot be more than n-1 samples. Default is \code{10}.
+#' @param id_colname [[character]] Character string of the column in `ssheet_csv` that matches
+#'   the file names in `data_directory`.
+#' @param housekeeping_genes [[character]] A vector of names of the miRNAs/mRNAs
+#'   that should be used as housekeeping genes. Default is `NULL`.
+#' @param housekeeping_predict [[logical]] Boolean to indicate whether the housekeeping genes
+#'   should be predicted (`TRUE`) or not (`FALSE`). Default is `FALSE`.
+#' @param housekeeping_norm [[logical]] Boolean to indicate whether the housekeeping normalisation should be performed.
+#'   Default is `TRUE`.
+#' @param normalisation_method [[character]] Either `"GEO"` or `"GLM"`.
+#'   Character string to indicate normalisation using the geometric mean (`"GEO"`)
+#'   or a generalized linear model (`"GLM"`). Default is `"GEO"`.
+#' @param n_comp [[numeric]] Number indicating the number of principal components to compute.
+#'  Cannot be more than n-1 samples. Default is `10`.
 #'
-#' @return [list] A list containing parameters and data:
+#' @return [[list]] A list containing parameters and data:
 #' \describe{
-#'   \item{access}{[character] Value passed to \code{\link{summarise}} in \code{id_colname}.}
-#'   \item{housekeeping_genes}{[character] Value passed to \code{\link{summarise}}.}
-#'   \item{housekeeping_predict}{[logical] Value passed to \code{\link{summarise}}.}
-#'   \item{housekeeping_norm}{[logical] Value passed to \code{\link{summarise}}.}
-#'   \item{normalisation_method}{[character] Value passed to \code{\link{summarise}}.}
-#'   \item{remove_outliers}{[logical] \code{FALSE}.}
-#'   \item{n_comp}{[ numeric] Value passed to \code{\link{summarise}}.}
-#'   \item{data_directory}{[character] Value passed to \code{\link{summarise}}.}
-#'   \item{pc_sum}{[data.frame] A \code{data.frame} with \code{n_comp} rows and four columns:
-#'    "Standard deviation", "Proportion of Variance", "Cumulative Proportion" and "PC".}
-#'   \item{nacho}{[data.frame] A \code{data.frame} with all columns from the sample sheet \code{ssheet_csv}
-#'   and all computed columns, i.e., quality-control metrics and counts, with one sample per row.}
-#'   \item{outliers_thresholds}{[list] A \code{list} of the default quality-control thresholds.}
-#'   \item{raw_counts}{[data.frame] Raw counts with probes as rows and samples as columns.
-#'   With \code{"CodeClass"} (first column), the type of the probes and
-#'   \code{"Name"} (second column), the Name of the probes.}
-#'   \item{normalised_counts}{[data.frame] Normalised counts with probes as rows and samples as columns.
-#'   With \code{"CodeClass"} (first column)), the type of the probes and
-#'   \code{"Name"} (second column), the name of the probes.}
+#'   \item{`access`}{[[character]] Value passed to [summarise] in `id_colname`.}
+#'   \item{`housekeeping_genes`}{[[character]] Value passed to [summarise].}
+#'   \item{`housekeeping_predict`}{[[logical]] Value passed to [summarise].}
+#'   \item{`housekeeping_norm`}{[[logical]] Value passed to [summarise].}
+#'   \item{`normalisation_method`}{[[character]] Value passed to [summarise].}
+#'   \item{`remove_outliers`}{[[logical]] `FALSE`.}
+#'   \item{`n_comp`}{[[numeric]] Value passed to [summarise].}
+#'   \item{`data_directory`}{[[character]] Value passed to [summarise].}
+#'   \item{`pc_sum`}{[[data.frame]] A `data.frame` with `n_comp` rows and four columns:
+#'     "Standard deviation", "Proportion of Variance", "Cumulative Proportion" and "PC".}
+#'   \item{`nacho`}{[[data.frame]] A `data.frame` with all columns from the sample sheet `ssheet_csv`
+#'     and all computed columns, *i.e.*, quality-control metrics and counts, with one sample per row.}
+#'   \item{`outliers_thresholds`}{[[list]] A `list` of the (default) quality-control thresholds used.}
+#'   \item{`raw_counts`}{[[data.frame]] Raw counts with probes as rows and samples as columns.
+#'     With `"CodeClass"` (first column), the type of the probes and
+#'     `"Name"` (second column), the Name of the probes.}
+#'   \item{`normalised_counts`}{[[data.frame]] Normalised counts with probes as rows and samples as columns.
+#'     With `"CodeClass"` (first column)), the type of the probes and
+#'     `"Name"` (second column), the name of the probes.}
 #' }
 #'
 #' @export
 #'
 #' @examples
+#'
 #' if (interactive()) {
 #'   library(GEOquery)
 #'   library(NACHO)
@@ -72,7 +75,6 @@
 #'     ssheet_csv = paste0(tempdir(), "/GSE74821/Samplesheet.csv"),
 #'     id_colname = "IDFILE"
 #'   )
-#'
 #' }
 #'
 summarise <- function(
@@ -100,27 +102,52 @@ summarise <- function(
 
   nacho_df <- tibble::as_tibble(nacho_df)
   nacho_df[["file_path"]] <- paste(data_directory, nacho_df[[id_colname]], sep = "/")
-  nacho_df[["file_exists"]] <- sapply(X = nacho_df[["file_path"]], FUN = file.exists)
-  progress <- dplyr::progress_estimated(length(nacho_df[["file_path"]]) + 2)
-  nacho_df[["rcc_content"]] <- lapply(
-    X = nacho_df[["file_path"]],
-    FUN = function(ifile) {
-      progress$tick()$print()
-      read_rcc(file = ifile)
-    }
-  )
-  progress$pause(0.05)$tick()$print()
 
-  column_to_unnest <- c("rcc_content", "Code_Summary")
-  nacho_df <- tidyr::unnest(data = nacho_df, rcc_content = get(column_to_unnest[1]), .drop = FALSE)
-  nacho_df <- tidyr::unnest(data = nacho_df, Code_Summary = get(column_to_unnest[2]), .drop = FALSE)
-  nacho_df[["CodeClass"]] <- gsub("Endogenous.*", "Endogenous", nacho_df[["CodeClass"]])
+  if (!all(sapply(X = nacho_df[["file_path"]], FUN = file.exists))) {
+    stop('[NACHO] Not all values from "id_colname" are mapped to a RCC file.')
+  }
 
-  if ("plexset_id" %in% colnames(nacho_df)) {
+  if (anyDuplicated(nacho_df[[id_colname]])!=0 & !"plexset_id"%in%colnames(nacho_df)) {
+    stop(
+      '[NACHO] "id_colname" contains duplicates and "plexset_id" was not provided.\n',
+      '  For PlexSet RCC files, "plexset_id" column is required to identify samples.'
+    )
+  }
+
+  # column_to_unnest <- c("rcc_content", "Code_Summary")
+
+  if (anyDuplicated(nacho_df[[id_colname]])!=0) {
     type_set <- "n8"
+    nacho_df_uniq <- unique(nacho_df[, c(id_colname, "file_path")])
+    progress <- dplyr::progress_estimated(length(nacho_df_uniq[["file_path"]]) + 1)
+    nacho_df_uniq[["rcc_content"]] <-  lapply(
+      X = nacho_df_uniq[["file_path"]],
+      FUN = function(ifile) {
+        progress$tick()$print()
+        read_rcc(file = ifile)
+      }
+    )
+    nacho_df_uniq <- tidyr::unnest(data = nacho_df_uniq, cols = "rcc_content")
+    nacho_df <- dplyr::left_join(
+      x = nacho_df,
+      y = nacho_df_uniq,
+      by = c(id_colname, "file_path", "plexset_id")
+    )
+    nacho_df <- tidyr::unnest(data = nacho_df, cols = "Code_Summary")
+    nacho_df[["CodeClass"]] <- gsub("[0-8]+s$", "", nacho_df[["CodeClass"]])
     nacho_df <- tidyr::unite(data = nacho_df, col = !!id_colname, id_colname, "plexset_id")
   } else {
     type_set <- "n1"
+    progress <- dplyr::progress_estimated(length(nacho_df[["file_path"]]) + 1)
+    nacho_df[["rcc_content"]] <- lapply(
+      X = nacho_df[["file_path"]],
+      FUN = function(ifile) {
+        progress$tick()$print()
+        read_rcc(file = ifile)
+      }
+    )
+    nacho_df <- tidyr::unnest(data = nacho_df, cols = "rcc_content")
+    nacho_df <- tidyr::unnest(data = nacho_df, cols = "Code_Summary")
   }
   progress$pause(0.05)$tick()$print()
   cat("\n")
@@ -208,6 +235,8 @@ summarise <- function(
     "  $ normalised_counts   : data.frame",
     sep = "\n"
   ))
+
+  class(nacho_object) <- "nacho"
 
   nacho_object
 }

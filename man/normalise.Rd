@@ -3,7 +3,7 @@
 \name{normalise}
 \alias{normalise}
 \alias{normalize}
-\title{normalise}
+\title{(re)Normalise a dataset read from \link{summarise}}
 \usage{
 normalise(nacho_object,
   housekeeping_genes = nacho_object[["housekeeping_genes"]],
@@ -15,67 +15,68 @@ normalise(nacho_object,
   outliers_thresholds = nacho_object[["outliers_thresholds"]])
 }
 \arguments{
-\item{nacho_object}{[list] List obtained from \code{\link{summarise}} or \code{\link{normalise}}.}
+\item{nacho_object}{[\link{list}] List obtained from \link{summarise} or \link{normalise}.}
 
-\item{housekeeping_genes}{[vector(character)] A vector of names of the miRNAs/mRNAs
+\item{housekeeping_genes}{[\link{character}] A vector of names of the miRNAs/mRNAs
 that should be used as housekeeping genes. Default is \code{NULL}.}
 
-\item{housekeeping_predict}{[logical] Boolean to indicate whether the housekeeping genes
+\item{housekeeping_predict}{[\link{logical}] Boolean to indicate whether the housekeeping genes
 should be predicted (\code{TRUE}) or not (\code{FALSE}). Default is \code{FALSE}.}
 
-\item{housekeeping_norm}{[logical] Boolean to indicate whether the housekeeping normalisation should be performed.
+\item{housekeeping_norm}{[\link{logical}] Boolean to indicate whether the housekeeping normalisation should be performed.
 Default is \code{TRUE}.}
 
-\item{normalisation_method}{[character] Either \code{"GEO"} or \code{"GLM"}.
+\item{normalisation_method}{[\link{character}] Either \code{"GEO"} or \code{"GLM"}.
 Character string to indicate normalisation using the geometric mean (\code{"GEO"})
 or a generalized linear model (\code{"GLM"}). Default is \code{"GEO"}.}
 
-\item{n_comp}{[numeric] Number indicating the number of principal components to compute.
+\item{n_comp}{[\link{numeric}] Number indicating the number of principal components to compute.
 Cannot be more than n-1 samples. Default is \code{10}.}
 
-\item{remove_outliers}{[logical] A boolean to indicate if outliers should be excluded.}
+\item{remove_outliers}{[\link{logical}] A boolean to indicate if outliers should be excluded.}
 
-\item{outliers_thresholds}{[list] List of thresholds to exclude outliers.}
+\item{outliers_thresholds}{[\link{list}] List of thresholds to exclude outliers.}
 }
 \value{
-[list] A list containing parameters and data.
+[\link{list}] A list containing parameters and data.
 \describe{
-  \item{access}{[character] Value passed to \code{\link{summarise}} in \code{id_colname}.}
-  \item{housekeeping_genes}{[character] Value passed to \code{\link{summarise}} or \code{\link{normalise}}.}
-  \item{housekeeping_predict}{[logical] Value passed to \code{\link{summarise}}.}
-  \item{housekeeping_norm}{[logical] Value passed to \code{\link{summarise}} or \code{\link{normalise}}.}
-  \item{normalisation_method}{[character] Value passed to \code{\link{summarise}} or \code{\link{normalise}}.}
-  \item{remove_outliers}{[logical] Value passed to \code{\link{normalise}}.}
-  \item{n_comp}{[ numeric] Value passed to \code{\link{summarise}}.}
-  \item{data_directory}{[character] Value passed to \code{\link{summarise}}.}
-  \item{pc_sum}{[data.frame] A \code{data.frame} with \code{n_comp} rows and four columns:
-   "Standard deviation", "Proportion of Variance", "Cumulative Proportion" and "PC".}
-  \item{nacho}{[data.frame] A \code{data.frame} with all columns from the sample sheet \code{ssheet_csv}
-  and all computed columns, i.e., quality-control metrics and counts, with one sample per row.}
-  \item{outliers_thresholds}{[list] A \code{list} of the quality-control thresholds used.}
-  \item{raw_counts}{[data.frame] Raw counts with probes as rows and samples as columns.
-  With \code{"CodeClass"} (first column), the type of the probes and
-  \code{"Name"} (second column), the Name of the probes.}
-  \item{normalised_counts}{[data.frame] Normalised counts with probes as rows and samples as columns.
-  With \code{"CodeClass"} (first column)), the type of the probes and
-  \code{"Name"} (second column), the name of the probes.}
+\item{\code{access}}{[\link{character}] Value passed to \link{summarise} in \code{id_colname}.}
+\item{\code{housekeeping_genes}}{[\link{character}] Value passed to \link{summarise} or \link{normalise}.}
+\item{\code{housekeeping_predict}}{[\link{logical}] Value passed to \link{summarise}.}
+\item{\code{housekeeping_norm}}{[\link{logical}] Value passed to \link{summarise} or \link{normalise}.}
+\item{\code{normalisation_method}}{[\link{character}] Value passed to \link{summarise} or \link{normalise}.}
+\item{\code{remove_outliers}}{[\link{logical}] Value passed to \link{normalise}.}
+\item{\code{n_comp}}{[\link{numeric}] Value passed to \link{summarise}.}
+\item{\code{data_directory}}{[\link{character}] Value passed to \link{summarise}.}
+\item{\code{pc_sum}}{[\link{data.frame}] A \code{data.frame} with \code{n_comp} rows and four columns:
+"Standard deviation", "Proportion of Variance", "Cumulative Proportion" and "PC".}
+\item{\code{nacho}}{[\link{data.frame}] A \code{data.frame} with all columns from the sample sheet \code{ssheet_csv}
+and all computed columns, \emph{i.e.}, quality-control metrics and counts, with one sample per row.}
+\item{\code{outliers_thresholds}}{[\link{list}] A \code{list} of the quality-control thresholds used.}
+\item{\code{raw_counts}}{[\link{data.frame}] Raw counts with probes as rows and samples as columns.
+With \code{"CodeClass"} (first column), the type of the probes and
+\code{"Name"} (second column), the Name of the probes.}
+\item{\code{normalised_counts}}{[\link{data.frame}] Normalised counts with probes as rows and samples as columns.
+With \code{"CodeClass"} (first column)), the type of the probes and
+\code{"Name"} (second column), the name of the probes.}
 }
 }
 \description{
-normalise
+This function creates a list in which your settings, the raw counts and normalised counts are stored,
+using the result from a call to \link{summarise}.
 }
 \details{
 Outliers definition (\code{remove_outliers}):
 \itemize{
- \item Binding Density (\code{BD}) < 0.1
- \item Binding Density (\code{BD}) > 2.25
- \item Imaging (\code{FoV}) < 75
- \item Positive Control Linearity (\code{PC}) < 0.95
- \item Limit of Detection (\code{LoD}) < 2
- \item Positive normalisation factor (\code{Positive_factor}) < 0.25
- \item Positive normalisation factor (\code{Positive_factor}) > 4
- \item Housekeeping normalisation factor (\code{house_factor}) < 1/11
- \item Housekeeping normalisation factor (\code{house_factor}) > 11
+\item Binding Density (\code{BD}) < 0.1
+\item Binding Density (\code{BD}) > 2.25
+\item Imaging (\code{FoV}) < 75
+\item Positive Control Linearity (\code{PC}) < 0.95
+\item Limit of Detection (\code{LoD}) < 2
+\item Positive normalisation factor (\code{Positive_factor}) < 0.25
+\item Positive normalisation factor (\code{Positive_factor}) > 4
+\item Housekeeping normalisation factor (\code{house_factor}) < 1/11
+\item Housekeeping normalisation factor (\code{house_factor}) > 11
 }
 }
 \examples{

@@ -1,8 +1,6 @@
 context("summarise()")
 
 test_that("missing directory", {
-  # library(GEOquery)
-  # library(NACHO) # devtools::load_all("NACHO")
   gse <- try({GEOquery::getGEO(GEO = "GSE74821")}, silent = TRUE)
   if (class(gse)=="try-error") { # when GEOQUERY is down
     closeAllConnections()
@@ -14,6 +12,7 @@ test_that("missing directory", {
     targets$IDFILE <- list.files(path = paste0(tempdir(), "/GSE74821"), pattern = ".RCC.gz$")
     targets[] <- lapply(X = targets, FUN = iconv, from = "latin1", to = "ASCII")
     utils::write.csv(x = head(targets, 20), file = paste0(tempdir(), "/GSE74821/Samplesheet.csv"))
+    closeAllConnections()
     expect_error(summarise(
       # data_directory = paste0(tempdir(), "/GSE74821"),
       ssheet_csv = paste0(tempdir(), "/GSE74821/Samplesheet.csv"),
@@ -28,8 +27,6 @@ test_that("missing directory", {
 })
 
 test_that("missing sample sheet", {
-  # library(GEOquery)
-  # library(NACHO) # devtools::load_all("NACHO")
   gse <- try({GEOquery::getGEO(GEO = "GSE74821")}, silent = TRUE)
   if (class(gse)=="try-error") { # when GEOQUERY is down
     closeAllConnections()
@@ -42,6 +39,7 @@ test_that("missing sample sheet", {
     targets$IDFILE <- list.files(path = paste0(tempdir(), "/GSE74821"), pattern = ".RCC.gz$")
     targets[] <- lapply(X = targets, FUN = iconv, from = "latin1", to = "ASCII")
     utils::write.csv(x = head(targets, 20), file = paste0(tempdir(), "/GSE74821/Samplesheet.csv"))
+    closeAllConnections()
     expect_error(summarise(
       data_directory = paste0(tempdir(), "/GSE74821"),
       # ssheet_csv = paste0(tempdir(), "/GSE74821/Samplesheet.csv"),
@@ -57,8 +55,6 @@ test_that("missing sample sheet", {
 
 
 test_that("missing id_colname", {
-  # library(GEOquery)
-  # library(NACHO) # devtools::load_all("NACHO")
   gse <- try({GEOquery::getGEO(GEO = "GSE74821")}, silent = TRUE)
   if (class(gse)=="try-error") { # when GEOQUERY is down
     closeAllConnections()
@@ -70,6 +66,7 @@ test_that("missing id_colname", {
     targets$IDFILE <- list.files(path = paste0(tempdir(), "/GSE74821"), pattern = ".RCC.gz$")
     targets[] <- lapply(X = targets, FUN = iconv, from = "latin1", to = "ASCII")
     utils::write.csv(x = head(targets, 20), file = paste0(tempdir(), "/GSE74821/Samplesheet.csv"))
+    closeAllConnections()
     expect_error(summarise(
       data_directory = paste0(tempdir(), "/GSE74821"),
       ssheet_csv = paste0(tempdir(), "/GSE74821/Samplesheet.csv"),
@@ -84,8 +81,6 @@ test_that("missing id_colname", {
 })
 
 test_that("no housekeeping norm", {
-  # library(GEOquery)
-  # library(NACHO) # devtools::load_all("NACHO")
   gse <- try({GEOquery::getGEO(GEO = "GSE74821")}, silent = TRUE)
   if (class(gse)=="try-error") { # when GEOQUERY is down
     closeAllConnections()
@@ -97,6 +92,7 @@ test_that("no housekeeping norm", {
     targets$IDFILE <- list.files(path = paste0(tempdir(), "/GSE74821"), pattern = ".RCC.gz$")
     targets[] <- lapply(X = targets, FUN = iconv, from = "latin1", to = "ASCII")
     utils::write.csv(x = head(targets, 20), file = paste0(tempdir(), "/GSE74821/Samplesheet.csv"))
+    closeAllConnections()
     GSE74821 <- summarise(
       data_directory = paste0(tempdir(), "/GSE74821"),
       ssheet_csv = paste0(tempdir(), "/GSE74821/Samplesheet.csv"),
@@ -107,13 +103,11 @@ test_that("no housekeeping norm", {
       normalisation_method = "GLM",
       n_comp = 10
     )
-    expect_identical(class(GSE74821), "list")
+    expect_type(GSE74821, "list")
   }
 })
 
 test_that("no housekeeping norm and prediction", {
-  # library(GEOquery)
-  # library(NACHO) # devtools::load_all("NACHO")
   gse <- try({GEOquery::getGEO(GEO = "GSE74821")}, silent = TRUE)
   if (class(gse)=="try-error") { # when GEOQUERY is down
     closeAllConnections()
@@ -125,6 +119,7 @@ test_that("no housekeeping norm and prediction", {
     targets$IDFILE <- list.files(path = paste0(tempdir(), "/GSE74821"), pattern = ".RCC.gz$")
     targets[] <- lapply(X = targets, FUN = iconv, from = "latin1", to = "ASCII")
     utils::write.csv(x = head(targets, 20), file = paste0(tempdir(), "/GSE74821/Samplesheet.csv"))
+    closeAllConnections()
     GSE74821 <- summarise(
       data_directory = paste0(tempdir(), "/GSE74821"),
       ssheet_csv = paste0(tempdir(), "/GSE74821/Samplesheet.csv"),
@@ -135,15 +130,13 @@ test_that("no housekeeping norm and prediction", {
       normalisation_method = "GLM",
       n_comp = 10
     )
-    expect_identical(class(GSE74821), "list")
+    expect_type(GSE74821, "list")
   }
 })
 
 
 
 test_that("using GEO GSE74821", {
-  # library(GEOquery)
-  # library(NACHO) # devtools::load_all("NACHO")
   gse <- try({GEOquery::getGEO(GEO = "GSE74821")}, silent = TRUE)
   if (class(gse)=="try-error") { # when GEOQUERY is down
     closeAllConnections()
@@ -155,6 +148,7 @@ test_that("using GEO GSE74821", {
     targets$IDFILE <- list.files(path = paste0(tempdir(), "/GSE74821"), pattern = ".RCC.gz$")
     targets[] <- lapply(X = targets, FUN = iconv, from = "latin1", to = "ASCII")
     utils::write.csv(x = head(targets, 20), file = paste0(tempdir(), "/GSE74821/Samplesheet.csv"))
+    closeAllConnections()
     GSE74821 <- summarise(
       data_directory = paste0(tempdir(), "/GSE74821"),
       ssheet_csv = paste0(tempdir(), "/GSE74821/Samplesheet.csv"),
@@ -165,13 +159,11 @@ test_that("using GEO GSE74821", {
       normalisation_method = "GLM",
       n_comp = 10
     )
-    expect_identical(class(GSE74821), "list")
+    expect_type(GSE74821, "list")
   }
 })
 
 test_that("using GEO GSE74821 with prediction", {
-  # library(GEOquery)
-  # library(NACHO) # devtools::load_all("NACHO")
   gse <- try({GEOquery::getGEO(GEO = "GSE74821")}, silent = TRUE)
   if (class(gse)=="try-error") { # when GEOQUERY is down
     closeAllConnections()
@@ -183,6 +175,7 @@ test_that("using GEO GSE74821 with prediction", {
     targets$IDFILE <- list.files(path = paste0(tempdir(), "/GSE74821"), pattern = ".RCC.gz$")
     targets[] <- lapply(X = targets, FUN = iconv, from = "latin1", to = "ASCII")
     utils::write.csv(x = head(targets, 20), file = paste0(tempdir(), "/GSE74821/Samplesheet.csv"))
+    closeAllConnections()
     GSE74821 <- summarise(
       data_directory = paste0(tempdir(), "/GSE74821"),
       ssheet_csv = paste0(tempdir(), "/GSE74821/Samplesheet.csv"),
@@ -193,14 +186,12 @@ test_that("using GEO GSE74821 with prediction", {
       normalisation_method = "GLM",
       n_comp = 10
     )
-    expect_identical(class(GSE74821), "list")
+    expect_type(GSE74821, "list")
   }
 })
 
 
 test_that("using GEO GSE70970", {
-  # library(GEOquery)
-  # library(NACHO) # devtools::load_all("NACHO")
   gse <- try({GEOquery::getGEO(GEO = "GSE70970")}, silent = TRUE)
   if (class(gse)=="try-error") { # when GEOQUERY is down
     closeAllConnections()
@@ -212,6 +203,7 @@ test_that("using GEO GSE70970", {
     targets$IDFILE <- list.files(path = paste0(tempdir(), "/GSE70970"), pattern = ".RCC.gz$")
     targets[] <- lapply(X = targets, FUN = iconv, from = "latin1", to = "ASCII")
     utils::write.csv(x = head(targets, 20), file = paste0(tempdir(), "/GSE70970/Samplesheet.csv"))
+    closeAllConnections()
     GSE70970 <- summarise(
       data_directory = paste0(tempdir(), "/GSE70970"),
       ssheet_csv = paste0(tempdir(), "/GSE70970/Samplesheet.csv"),
@@ -222,13 +214,11 @@ test_that("using GEO GSE70970", {
       normalisation_method = "GLM",
       n_comp = 10
     )
-    expect_identical(class(GSE70970), "list")
+    expect_type(GSE70970, "list")
   }
 })
 
 test_that("using GEO GSE70970 with prediction", {
-  # library(GEOquery)
-  # library(NACHO) # devtools::load_all("NACHO")
   gse <- try({GEOquery::getGEO(GEO = "GSE70970")}, silent = TRUE)
   if (class(gse)=="try-error") { # when GEOQUERY is down
     closeAllConnections()
@@ -240,6 +230,7 @@ test_that("using GEO GSE70970 with prediction", {
     targets$IDFILE <- list.files(path = paste0(tempdir(), "/GSE70970"), pattern = ".RCC.gz$")
     targets[] <- lapply(X = targets, FUN = iconv, from = "latin1", to = "ASCII")
     utils::write.csv(x = head(targets, 20), file = paste0(tempdir(), "/GSE70970/Samplesheet.csv"))
+    closeAllConnections()
     GSE70970 <- summarise(
       data_directory = paste0(tempdir(), "/GSE70970"),
       ssheet_csv = paste0(tempdir(), "/GSE70970/Samplesheet.csv"),
@@ -250,6 +241,6 @@ test_that("using GEO GSE70970 with prediction", {
       normalisation_method = "GLM",
       n_comp = 10
     )
-    expect_identical(class(GSE70970), "list")
+    expect_type(GSE70970, "list")
   }
 })
