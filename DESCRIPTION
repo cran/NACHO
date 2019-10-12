@@ -1,7 +1,7 @@
 Package: NACHO
 Type: Package
 Title: NanoString Quality Control Dashboard
-Version: 0.6.0
+Version: 0.6.1
 Authors@R: c(
     person(given = "Mickaël", family = "Canouil", role = c("aut", "cre"), email = "mickael.canouil@cnrs.fr", 
       comment = c(ORCID = "0000-0002-3396-4549")
@@ -28,15 +28,16 @@ Imports: utils, tibble, dplyr, tidyr, shiny, scales, ggplot2,
         ggbeeswarm, ggrepel, ggpubr, gtools, magrittr, knitr,
         rmarkdown, sessioninfo
 Suggests: covr, Biobase, GEOquery, testthat
+SystemRequirements: pandoc (>= 1.12.3), pandoc-citeproc
 LazyData: true
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2019-10-07 11:26:52 UTC; mcanouil
+Packaged: 2019-10-11 08:23:31 UTC; mcanouil
 Author: Mickaël Canouil [aut, cre] (<https://orcid.org/0000-0002-3396-4549>),
   Roderick Slieker [aut] (<https://orcid.org/0000-0003-0961-9152>),
   Gerard Bouland [aut]
 Maintainer: Mickaël Canouil <mickael.canouil@cnrs.fr>
 Repository: CRAN
-Date/Publication: 2019-10-07 12:10:05 UTC
+Date/Publication: 2019-10-12 07:30:10 UTC
