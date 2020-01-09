@@ -1,3 +1,43 @@
+# NACHO 1.0.0
+
+## New features
+
+* In `R/conflicts.R`, 
+    - conflicts are now printed when attaching `NACHO`.
+    - `nacho_conflicts()` can be used to print conflicts.
+* New Shiny app in `inst/app/`, (#4, #5 & #14)
+    - as a regular app, to load directly RCC files individually or within zip archive.
+    - within `visualise()`, to load `"nacho"` object from `load_rcc()` (previous `summarise()`)
+        or from `normalise()`.
+* New `deploy()` (`R/deploy.R`) function to easily deploy (copy) the shiny app.
+* New raw RCC files (multiplexed) available in `inst/extdata/`.
+* New vignette `NACHO-analysis`, which describe how to use `limma` or other model after using **NACHO**.
+* In `DESCRIPTION`, 
+    - Order packages in alphabetical order.
+    - Add packages' version.
+    
+## Breaking changes
+
+* `summarise()` and `summarize()` have been deprecated and replaced with `load_rcc()`. (#12 & #15)
+* Counts matrices (`raw_counts` and `normalised_counts`) are no longer (directly) available, 
+    *i.e.*, counts are available in a long format within the `nacho` slot of a nacho object.
+* `visualise()`, now uses a new shiny app (`inst/app/`).
+
+## Minor improvements and fixes
+
+* In `R/visualise.R`, `R/render.R`, `print()`, `R/load_rcc.R` and `R/normalise.R`,
+    - replace function to check for outliers, now uses `check_outliers()`.
+* In `R/visualise.R`, replace datatable (render and output) with classical table. (#13)
+* In `R/autoplot.R`, 
+    - add `show_outliers` to show outliers differently on plots (*i.e.*, in red).
+    - add `outliers_factor` to highligth outliers with different point size.
+    - add `outliers_labels` to print labels on top of outliers.
+    - now uses tidyeval via import.
+    - remove plexset ID (`_S*`) to remove duplicated QC metrics.
+* In `R/print.R`, now print a table with outliers if any (with `echo = TRUE`).
+* In `R/GSE74821.R`, dataset is up to date according to NACHO functions.
+
+
 # NACHO 0.6.1
 
 ## Minor improvements and fixes

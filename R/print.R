@@ -1,19 +1,21 @@
-#' Print method for nacho object
+#' Print method for `"nacho"` object
 #'
-#' This function allows to print text and figures from the results of a call to `summarise()`
-#' or `normalise()`.
-#' It is intended to be used in a `Rmarkdown` chunk.
+#' This function allows to print text and figures from the results of a call to [`load_rcc()`]
+#' or [`normalise()`].
+#' It is intended to be used in a Rmarkdown chunk.
 #'
-#' @param x [[list]] List obtained from [summarise] or [normalise].
+#' @param x [[list]] A list object of class `"nacho"` obtained from [`load_rcc()`] or [`normalise()`].
 #' @inheritParams render
 #' @inheritParams autoplot.nacho
 #' @param echo [[logical]] A boolean to indicate whether text and plots should be printed.
 #'   Mainly for use within a Rmarkdown chunk.
 #' @param title_level [[numeric]] A numeric to indicate the title level to start with, using markdown style,
-#'   *i.e.*, the number of "#".
-#' @param ... Other arguments (Not used).
+#'   *i.e.*, the number of `"#"`.
+#' @param ... Other arguments (*Not used*).
 #'
 #' @return NULL
+#'
+#' @importFrom knitr kable
 #' @export
 #'
 #' @examples
@@ -21,8 +23,29 @@
 #' data(GSE74821)
 #' print(GSE74821)
 #'
-print.nacho <- function(x, colour = "CartridgeID", size = 0.5, show_legend = FALSE, echo = FALSE, title_level = 1, ...) {
+print.nacho <- function(
+  x,
+  colour = "CartridgeID",
+  size = 0.5,
+  show_legend = FALSE,
+  show_outliers = TRUE,
+  outliers_factor = 1,
+  outliers_labels = NULL,
+  echo = FALSE,
+  title_level = 1,
+  ...
+) {
+  if (missing(x)) {
+    stop(
+      '[NACHO] "x" is missing, results from "load_rcc()" and/or "normalise()" is mandatory!'
+    )
+  }
+  if (!attr(x, "RCC_type") %in% c("n1", "n8")) {
+    stop('[NACHO] RCC type must be either "n1" or "n8"!')
+  }
   if (!echo) return(utils::str(x, 1))
+
+  x <- check_outliers(x)
 
   if (is.numeric(x$nacho[[colour]])) {
     x$nacho[[colour]] <- as.character(x$nacho[[colour]])
@@ -53,10 +76,10 @@ print.nacho <- function(x, colour = "CartridgeID", size = 0.5, show_legend = FAL
       round(x$outliers_thresholds[["BD"]][1], 3), '\n',
     '    + ', 'Binding Density (BD) >',
       round(x$outliers_thresholds[["BD"]][2], 3), '\n',
-    '    + ', 'Imaging (FoV) <',
+    '    + ', 'Field of View (FoV) <',
       round(x$outliers_thresholds[["FoV"]], 3), '\n',
-    '    + ', 'Positive Control Linearity (PC) <',
-      round(x$outliers_thresholds[["PC"]], 3), '\n',
+    '    + ', 'Positive Control Linearity (PCL) <',
+      round(x$outliers_thresholds[["PCL"]], 3), '\n',
     '    + ', 'Limit of Detection (LoD) <',
       round(x$outliers_thresholds[["LoD"]], 3), '\n',
     '    + ', 'Positive normalisation factor (Positive_factor) <',
@@ -73,199 +96,101 @@ print.nacho <- function(x, colour = "CartridgeID", size = 0.5, show_legend = FAL
   labels <- c(
     "BD" = "Binding Density",
     "FoV" = "Field of View (Imaging)",
-    "PC" = "Positive Control linearity",
+    "PCL" = "Positive Control Linearity",
     "LoD" = "Limit of Detection"
   )
   units <- c(
     "BD" = '"(Optical features / ", mu, m^2, ")"',
     "FoV" = '"(% Counted)"',
-    "PC" = '(R^2)',
+    "PCL" = '(R^2)',
     "LoD" = '"(Z)"'
   )
   details <- c(
     "BD" = paste(
-      "The imaging unit only counts the codes that are unambiguously distinguishable.",
-      "It simply will not count codes that overlap within an image.",
-      "This provides increased confidence that the molecular counts you receive are from truly recognisable codes.",
-      "Under most conditions, forgoing the few barcodes that do overlap will not impact your data.",
-      "Too many overlapping codes in the image, however, will create a condition called image saturation in which significant data loss could occur (critical data loss from saturation is uncommon).",
-      "\n",
-      "To determine the level of image saturation, the nCounter instrument calculates the number of optical features per square micron for each lane as it processes the images.",
-      "This is called the **Binding Density**.",
-      "The **Binding Density** is useful for determining whether data collection has been compromised due to image saturation.",
-      "The acceptable range for **Binding Density** is:",
-      "\n",
-      "* `0.1 - 2.25` for **MAX**/**FLEX** instruments",
-      "* `0.1 - 1.8` for **SPRINT** instruments",
-      "\n",
-      "Within these ranges, relatively few reporters on the slide surface will overlap, enabling the instrument to accurately tabulate counts for each reporter species.",
-      "A **Binding Density** significantly greater than the upper limit in either range is indicative of overlapping reporters on the slide surface.",
-      "The counts observed in lanes with a **Binding Density** at this level may have had significant numbers of codes ignored, which could potentially affect quantification and linearity of the assay.",
-      "Some of the factors that may contribute to increased **Binding Density** are listed in the Factors affecting **Binding Density** box.",
-      sep = "\n"
+      readLines(system.file("app", "www", "about-bd.md", package = "NACHO")),
+      collapse = "\n"
     ),
     "FoV" = paste(
-      "Each individual lane scanned on an nCounter system is divided into a few hundred imaging sections, called Fields of View (**FOV**), the exact number of which will depend on the system being used (*i.e.*, **MAX/FLEX** or **SPRINT**), and the scanner settings selected by the user.",
-      "The system images these FOVs separately, and sums the barcode counts of all **FOV**s from a single lane to form the final raw data count for each unique barcode target.",
-      "Finally, the system reports the number of **FOV**s successfully imaged as FOV Counted.",
-      "\n",
-      "Significant discrepancy between the number of **FOV** for which imaging was attempted (**FOV Count**) and for which imaging was successful (**FOV Counted**) may indicate an issue with imaging performance.",
-      "Recommended percentage of registered FOVs (*i.e.*, **FOV Counted** over **FOV Count**) is `75 %`.",
-      "Lanes will be flagged if this percentage is lower.",
-      sep = "\n"
+      readLines(system.file("app", "www", "about-fov.md", package = "NACHO")),
+      collapse = "\n"
     ),
-    "PC" = paste(
-      "Six synthetic DNA control targets are included with every nCounter Gene Expression assay.",
-      "Their concentrations range linearly from `128 fM` to `0.125 fM`, and they are referred to as **POS_A** to **POS_F**, respectively.",
-      "These **Positive Controls** are typically used to measure the efficiency of the hybridization reaction, and their step-wise concentrations also make them useful in checking the linearity performance of the assay.",
-      "An R2 value is calculated from the regression between the known concentration of each of the **Positive Controls** and the resulting counts from them (this calculation is performed using log2-transformed values).",
-      "\n",
-      "Since the known concentrations of the **Positive Controls** increase in a linear fashion, the resulting counts should, as well.",
-      "Therefore, R2 values should be higher than `0.95`.",
-      "\n",
-      "Note that because POS_F has a known concentration of `0.125 fM`, which is considered below the limit of detection of the system, it should be excluded from this calculation (although you will see that **POS_F** counts are significantly higher than the negative control counts in most cases).",
-      sep = "\n"
+    "PCL" = paste(
+      readLines(system.file("app", "www", "about-pcl.md", package = "NACHO")),
+      collapse = "\n"
     ),
     "LoD" = paste(
-      "The limit of detection is determined by measuring the ability to detect **POS_E**, the `0.5 fM` positive control probe, which corresponds to about 10,000 copies of this target within each sample tube.",
-      "On a **FLEX**/**MAX** system, the standard input of `100 ng` of total RNA will roughly correspond to about 10,000 cell equivalents (assuming one cell contains `10 pg` total RNA on average).",
-      "An nCounter assay run on the **FLEX**/**MAX** system should thus conservatively be able to detect roughly one transcript copy per cell for each target (or 10,000 total transcript copies).",
-      "In most assays, you will observe that even the **POS_F** probe (equivalent to 0.25 copies per cell) is detectable above background.",
-      "\n",
-      "To determine whether **POS_E** is detectable, it can be compared to the counts for the negative control probes.",
-      "Every nCounter Gene Expression assay is manufactured with eight negative control probes that should not hybridize to any targets within the sample.",
-      "Counts from these will approximate general non-specific binding of probes within the samples being run.",
-      "The counts of **POS_E** should be higher than two times the standard deviation above the mean of the negative control.",
-      sep = "\n"
+      readLines(system.file("app", "www", "about-lod.md", package = "NACHO")),
+      collapse = "\n"
     )
   )
 
   metrics <- switch(
     EXPR = attr(x, "RCC_type"),
-    "n1" = c("BD", "FoV", "PC", "LoD"),
+    "n1" = c("BD", "FoV", "PCL", "LoD"),
     "n8" = c("BD", "FoV")
   )
 
   for (imetric in metrics) {
     cat(prefix_title(title_level, 1), labels[imetric], "\n\n")
-    cat(details[imetric], "\n")
-    print(autoplot.nacho(
+    cat(details[imetric], "\n\n")
+    suppressWarnings(print(autoplot.nacho(
       x = imetric,
       object = x,
       colour = colour,
       size = size,
-      show_legend = show_legend
-    ))
+      show_legend = show_legend,
+      show_outliers = show_outliers,
+      outliers_factor = outliers_factor,
+      outliers_labels = outliers_labels
+    )))
     cat("\n")
   }
 
-  cat(prefix_title(title_level, 0), "Control Genes\n\n")
-  for (icodeclass in c("Positive", "Negative", "Housekeeping")) {
-    cat(prefix_title(title_level, 1), icodeclass, "\n\n")
-    print(autoplot.nacho(
-      x = icodeclass,
-      object = x,
-      colour = colour,
-      size = size,
-      show_legend = show_legend
-    ))
-    cat("\n")
+
+  sections <- data.frame(stringsAsFactors = FALSE,
+    title = c(
+      "Control Genes", "Positive", "Negative", "Housekeeping", "Control Probe Expression",
+      "QC Visuals", "Average Count vs. Binding Density", "Average Count vs. Median Count",
+      "Principal Component", "PC1 vs. PC2", "Factorial planes", "Inertia",
+      "Normalisation Factors", "Positive Factor vs. Background Threshold", "Housekeeping Factor",
+      "Normalisation Result"
+    ),
+    plot = c(
+      NA, "Positive", "Negative", "Housekeeping", "PN",
+      NA, "ACBD", "ACMC",
+      NA, "PCA12", "PCA", "PCAi",
+      NA, "PFNF", "HF", "NORM"
+    ),
+    level = c(0, 1, 1, 1, 1, 0, 1, 1, 1, 2, 2, 2, 0, 1, 1, 1)
+  )
+
+  for (isection in seq(nrow(sections))) {
+    cat(prefix_title(title_level, sections[isection, "level"]), sections[isection, "title"], "\n\n")
+    if (!is.na(sections[isection, "plot"])) {
+      suppressWarnings(print(autoplot.nacho(
+        x = sections[isection, "plot"],
+        object = x,
+        colour = colour,
+        size = size,
+        show_legend = show_legend,
+        show_outliers = show_outliers,
+        outliers_factor = outliers_factor,
+        outliers_labels = outliers_labels
+      )))
+      cat("\n")
+    }
   }
 
-  cat(prefix_title(title_level, 1), "Control Probe Expression\n\n")
-  print(autoplot.nacho(
-    x = "PN",
-    object = x,
-    colour = colour,
-    size = size,
-    show_legend = show_legend
-  ))
-  cat("\n")
-
-  cat(prefix_title(title_level, 0), "QC Visuals\n\n")
-
-  cat(prefix_title(title_level, 1), "Average Count vs. Binding Density\n\n")
-  print(autoplot.nacho(
-    x = "ACBD",
-    object = x,
-    colour = colour,
-    size = size,
-    show_legend = show_legend
-  ))
-  cat("\n")
-
-  cat(prefix_title(title_level, 1), "Average Count vs. Median Count\n\n")
-  print(autoplot.nacho(
-    x = "ACMC",
-    object = x,
-    colour = colour,
-    size = size,
-    show_legend = show_legend
-  ))
-  cat("\n")
-
-  cat(prefix_title(title_level, 1), "Principal Component\n\n")
-  cat(prefix_title(title_level, 2), "PC1 vs. PC2\n\n")
-  print(autoplot.nacho(
-    x = "PCA12",
-    object = x,
-    colour = colour,
-    size = size,
-    show_legend = show_legend
-  ))
-  cat("\n")
-
-  cat(prefix_title(title_level, 2), "Factorial planes\n\n")
-  print(autoplot.nacho(
-    x = "PCA",
-    object = x,
-    colour = colour,
-    size = size,
-    show_legend = show_legend
-  ))
-  cat("\n")
-
-  cat(prefix_title(title_level, 2), "Inertia\n\n")
-  print(autoplot.nacho(
-    x = "PCAi",
-    object = x,
-    colour = colour,
-    size = size,
-    show_legend = show_legend
-  ))
-  cat("\n")
-
-  cat(prefix_title(title_level, 0), "Normalisation Factors\n\n")
-
-  cat(prefix_title(title_level, 1), "Positive Factor vs. Background Threshold\n\n")
- print(autoplot.nacho(
-    x = "PFNF",
-    object = x,
-    colour = colour,
-    size = size,
-    show_legend = show_legend
-  ))
-  cat("\n")
-
-  cat(prefix_title(title_level, 1), "Housekeeping Factor\n\n")
-  print(autoplot.nacho(
-    x = "HF",
-    object = x,
-    colour = colour,
-    size = size,
-    show_legend = show_legend
-  ))
-  cat("\n")
-
-  cat(prefix_title(title_level, 1), "Normalisation Result\n\n")
-  print(autoplot.nacho(
-    x = "NORM",
-    object = x,
-    colour = colour,
-    size = size,
-    show_legend = show_legend
-  ))
-  cat("\n")
+  if (any(x$nacho[["is_outlier"]])) {
+    cat(prefix_title(title_level, 1), "Outliers", "\n\n")
+    columns_qc <- c(
+      x$access, "CartridgeID",
+      "BD", "FoV", "PCL", "LoD", "MC", "MedC",
+      "Positive_factor", "House_factor"
+    )
+    outliers_list <- unique(x$nacho[which(x$nacho[["is_outlier"]]), columns_qc])
+    print(knitr::kable(outliers_list, row.names = FALSE))
+  }
 
   invisible()
 }

@@ -2,20 +2,29 @@
 % Please edit documentation in R/autoplot.R
 \name{autoplot.nacho}
 \alias{autoplot.nacho}
-\title{Plot quality-control metrics and thresholds}
+\title{Plot quality-control metrics and thresholds of a \code{"nacho"} object}
 \usage{
-\method{autoplot}{nacho}(object, x, colour = "CartridgeID", size = 0.5,
-  show_legend = TRUE, attribute = NULL, ...)
+\method{autoplot}{nacho}(
+  object,
+  x,
+  colour = "CartridgeID",
+  size = 0.5,
+  show_legend = TRUE,
+  show_outliers = TRUE,
+  outliers_factor = 1,
+  outliers_labels = NULL,
+  ...
+)
 }
 \arguments{
-\item{object}{[\link{list}] List obtained from \link{summarise} or \link{normalise}.}
+\item{object}{[\link{list}] List obtained from \code{\link[=load_rcc]{load_rcc()}} or \code{\link[=normalise]{normalise()}}.}
 
 \item{x}{[\link{character}] Character string naming the quality-control metrics to plot from \code{nacho_object}.
 The possible values are:
 \itemize{
 \item \code{"BD"} (Binding Density)
 \item \code{"FoV"} (Imaging)
-\item \code{"PC"} (Positive Control Linearity)
+\item \code{"PCL"} (Positive Control Linearity)
 \item \code{"LoD"} (Limit of Detection)
 \item \code{"Positive"} (Positive Controls)
 \item \code{"Negative"} (Negative Controls)
@@ -34,25 +43,31 @@ The possible values are:
 \item{colour}{[\link{character}] Character string of the column in \code{ssheet_csv}
 or more generally in \code{nacho_object$nacho} to be used as grouping colour.}
 
-\item{size}{[\link{numeric}] A \code{numeric} controlling point size (\link{geom_point} or \link{geom_beeswarm})
-or line size (\link{geom_line}).}
+\item{size}{[\link{numeric}] A numeric controlling point size
+(\code{\link[ggplot2:geom_point]{ggplot2::geom_point()}} or #' \code{\link[ggbeeswarm:geom_beeswarm]{ggbeeswarm::geom_beeswarm()}})
+or line size (\code{\link[ggplot2:geom_line]{ggplot2::geom_line()}}).}
 
 \item{show_legend}{[\link{logical}] Boolean to indicate whether the plot legends should
 be plotted (\code{TRUE}) or not (\code{FALSE}). Default is \code{TRUE}.}
 
-\item{attribute}{[\link{character}] A character string to indicate which RCC attributes should be used}
+\item{show_outliers}{[\link{logical}] Boolean to indicate whether the outliers should be highlighted
+in red (\code{TRUE}) or not (\code{FALSE}). Default is \code{TRUE}.}
+
+\item{outliers_factor}{[\link{numeric}] Size factor for outliers compared to \code{size}. Default is \code{1}.}
+
+\item{outliers_labels}{[\link{character}] Character to indicate which column in \code{nacho_object$nacho}
+should be used to be printed as the labels for outliers or not. Default is \code{NULL}.}
 
 \item{...}{Other arguments (Not used).}
 }
 \description{
 This function allows to plot any qualit-control figures available
-within the shiny app using \link{visualise} or in the HTML report from \link{render}.
+within the shiny app using \code{\link[=visualise]{visualise()}} or in the HTML report from \code{\link[=render]{render()}}.
 }
 \examples{
 
 data(GSE74821)
+
 autoplot(GSE74821, x = "BD")
-autoplot(GSE74821, x = "PCA12")
-autoplot(GSE74821, x = "NORM")
 
 }

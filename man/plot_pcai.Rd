@@ -4,7 +4,7 @@
 \alias{plot_pcai}
 \title{plot_pcai}
 \usage{
-plot_pcai(nacho_object, x, colour, size, show_legend)
+plot_pcai(nacho_object, x, colour, size)
 }
 \arguments{
 \item{x}{[\link{character}] Character string naming the quality-control metrics to plot from \code{nacho_object}.
@@ -12,7 +12,7 @@ The possible values are:
 \itemize{
 \item \code{"BD"} (Binding Density)
 \item \code{"FoV"} (Imaging)
-\item \code{"PC"} (Positive Control Linearity)
+\item \code{"PCL"} (Positive Control Linearity)
 \item \code{"LoD"} (Limit of Detection)
 \item \code{"Positive"} (Positive Controls)
 \item \code{"Negative"} (Negative Controls)
@@ -31,11 +31,9 @@ The possible values are:
 \item{colour}{[\link{character}] Character string of the column in \code{ssheet_csv}
 or more generally in \code{nacho_object$nacho} to be used as grouping colour.}
 
-\item{size}{[\link{numeric}] A \code{numeric} controlling point size (\link{geom_point} or \link{geom_beeswarm})
-or line size (\link{geom_line}).}
-
-\item{show_legend}{[\link{logical}] Boolean to indicate whether the plot legends should
-be plotted (\code{TRUE}) or not (\code{FALSE}). Default is \code{TRUE}.}
+\item{size}{[\link{numeric}] A numeric controlling point size
+(\code{\link[ggplot2:geom_point]{ggplot2::geom_point()}} or #' \code{\link[ggbeeswarm:geom_beeswarm]{ggbeeswarm::geom_beeswarm()}})
+or line size (\code{\link[ggplot2:geom_line]{ggplot2::geom_line()}}).}
 }
 \description{
 plot_pcai

@@ -3,17 +3,18 @@
 \name{visualise}
 \alias{visualise}
 \alias{visualize}
-\title{Visualise quality-control metrics using a shiny app}
+\title{Visualise quality-control metrics of a \code{"nacho"} object}
 \usage{
 visualise(nacho_object)
 }
 \arguments{
-\item{nacho_object}{[\link{list}] List obtained from \link{summarise} or \link{normalise}.}
+\item{nacho_object}{[\link{list}] A list object of class \code{"nacho"} obtained
+from \code{\link[=load_rcc]{load_rcc()}} or \code{\link[=normalise]{normalise()}}.}
 }
 \description{
-This function allows to visualise several quality-control metrics
-in an interactive \link{shiny} application, in which thresholds can be customised
-and exported to the global environment.
+This function allows to visualise results from \code{\link[=load_rcc]{load_rcc()}} or \code{\link[=normalise]{normalise()}}
+several quality-control metrics in an interactive shiny application,
+in which thresholds can be customised and exported.
 }
 \examples{
 
@@ -46,7 +47,7 @@ if (interactive()) {
   )
 
   # Read RCC files and format
-  nacho <- summarise(
+  nacho <- load_rcc(
     data_directory = paste0(tempdir(), "/GSE74821"),
     ssheet_csv = paste0(tempdir(), "/GSE74821/Samplesheet.csv"),
     id_colname = "IDFILE"

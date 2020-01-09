@@ -1,19 +1,20 @@
-#' (re)Normalise a dataset read from [summarise]
+#' (re)Normalise a `"nacho"` object
 #'
 #' This function creates a list in which your settings, the raw counts and normalised counts are stored,
-#' using the result from a call to [summarise].
+#' using the result from a call to [`load_rcc()`].
 #'
-#' @param nacho_object [[list]] List obtained from [summarise] or [normalise].
-#' @inheritParams summarise
+#' @param nacho_object [[list]] A list object of class `"nacho"` obtained
+#'   from [`load_rcc()`] or [`normalise()`].
+#' @inheritParams load_rcc
 #' @param remove_outliers [[logical]] A boolean to indicate if outliers should be excluded.
 #' @param outliers_thresholds [[list]] List of thresholds to exclude outliers.
 #'
-#' @details Outliers definition (`remove_outliers`):
+#' @details Outliers definition (`remove_outliers = TRUE`):
 #'
 #'  * Binding Density (`BD`) < 0.1
 #'  * Binding Density (`BD`) > 2.25
-#'  * Imaging (`FoV`) < 75
-#'  * Positive Control Linearity (`PC`) < 0.95
+#'  * Field of View (`FoV`) < 75
+#'  * Positive Control Linearity (`PCL`) < 0.95
 #'  * Limit of Detection (`LoD`) < 2
 #'  * Positive normalisation factor (`Positive_factor`) < 0.25
 #'  * Positive normalisation factor (`Positive_factor`) > 4
@@ -22,14 +23,14 @@
 #'
 #' @return [[list]] A list containing parameters and data.
 #' \describe{
-#'   \item{`access`}{[[character]] Value passed to [summarise] in `id_colname`.}
-#'   \item{`housekeeping_genes`}{[[character]] Value passed to [summarise] or [normalise].}
-#'   \item{`housekeeping_predict`}{[[logical]] Value passed to [summarise].}
-#'   \item{`housekeeping_norm`}{[[logical]] Value passed to [summarise] or [normalise].}
-#'   \item{`normalisation_method`}{[[character]] Value passed to [summarise] or [normalise].}
-#'   \item{`remove_outliers`}{[[logical]] Value passed to [normalise].}
-#'   \item{`n_comp`}{[[numeric]] Value passed to [summarise].}
-#'   \item{`data_directory`}{[[character]] Value passed to [summarise].}
+#'   \item{`access`}{[[character]] Value passed to [`load_rcc()`] in `id_colname`.}
+#'   \item{`housekeeping_genes`}{[[character]] Value passed to [`load_rcc()`] or [`normalise()`].}
+#'   \item{`housekeeping_predict`}{[[logical]] Value passed to [`load_rcc()`].}
+#'   \item{`housekeeping_norm`}{[[logical]] Value passed to [`load_rcc()`] or [`normalise()`].}
+#'   \item{`normalisation_method`}{[[character]] Value passed to [`load_rcc()`] or [`normalise()`].}
+#'   \item{`remove_outliers`}{[[logical]] Value passed to [`normalise()`].}
+#'   \item{`n_comp`}{[[numeric]] Value passed to [`load_rcc()`].}
+#'   \item{`data_directory`}{[[character]] Value passed to [`load_rcc()`].}
 #'   \item{`pc_sum`}{[[data.frame]] A `data.frame` with `n_comp` rows and four columns:
 #'     "Standard deviation", "Proportion of Variance", "Cumulative Proportion" and "PC".}
 #'   \item{`nacho`}{[[data.frame]] A `data.frame` with all columns from the sample sheet `ssheet_csv`
@@ -78,7 +79,7 @@
 #'   )
 #'
 #'   # Read RCC files and format
-#'   nacho <- summarise(
+#'   nacho <- load_rcc(
 #'     data_directory = paste0(tempdir(), "/GSE74821"),
 #'     ssheet_csv = paste0(tempdir(), "/GSE74821/Samplesheet.csv"),
 #'     id_colname = "IDFILE"
@@ -109,7 +110,12 @@ normalise <- function(
   outliers_thresholds = nacho_object[["outliers_thresholds"]]
 ) {
   if (missing(nacho_object)) {
-    stop('[NACHO] "nacho_object" must be provided.')
+    stop(
+      '[NACHO] "nacho_object" is missing, results from "load_rcc()" and/or "normalise()" is mandatory!'
+    )
+  }
+  if (!attr(nacho_object, "RCC_type") %in% c("n1", "n8")) {
+    stop('[NACHO] RCC type must be either "n1" or "n8"!')
   }
   mandatory_fields <- c(
     "access",
@@ -122,14 +128,12 @@ normalise <- function(
     "data_directory",
     "pc_sum",
     "nacho",
-    "outliers_thresholds",
-    "raw_counts",
-    "normalised_counts"
+    "outliers_thresholds"
   )
   if (!all(mandatory_fields%in%names(nacho_object))) {
     stop(
       '[NACHO] Mandatory fields are missing in "', substitute(nacho_object), '"!\n',
-      '  "summarise()" must be called before "normalise()".'
+      '  "load_rcc()" must be called before "normalise()".'
     )
   }
 
@@ -162,15 +166,13 @@ normalise <- function(
   }
 
   if (remove_outliers & !nacho_object[["remove_outliers"]]) {
-    nacho_df <- exclude_outliers(nacho_object = nacho_object)
-    outliers <- setdiff(
-      unique(nacho_object[["nacho"]][[nacho_object[["access"]]]]),
-      unique(nacho_df[[nacho_object[["access"]]]])
-    )
-    if (length(outliers)!=0 | any(params_changed)) {
+    nacho_object[["outliers_thresholds"]] <- outliers_thresholds
+    nacho_object <- check_outliers(nacho_object)
+
+    if (any(nacho_object[["nacho"]][, "is_outlier"]) | any(params_changed)) {
       nacho_object <- qc_rcc(
         data_directory = nacho_object[["data_directory"]],
-        nacho_df = nacho_df,
+        nacho_df = nacho_object[["nacho"]][which(!nacho_object[["nacho"]][, "is_outlier"]), ],
         id_colname = id_colname,
         housekeeping_genes = housekeeping_genes,
         housekeeping_predict = housekeeping_predict,
@@ -202,25 +204,9 @@ normalise <- function(
     housekeeping_norm = housekeeping_norm
   )
 
-  raw_counts <- format_counts(
-    data = nacho_object[["nacho"]],
-    id_colname = id_colname,
-    count_column = "Count"
-  )
-  nacho_object[["raw_counts"]] <- raw_counts
-
-  norm_counts <- format_counts(
-    data = nacho_object[["nacho"]],
-    id_colname = id_colname,
-    count_column = "Count_Norm"
-  )
-  nacho_object[["normalised_counts"]] <- norm_counts
-
   if (!"RCC_type"%in%names(attributes(nacho_object))) {
     attributes(nacho_object) <- c(attributes(nacho_object), RCC_type = type_set)
   }
-
-  nacho_object[["outliers_thresholds"]] <- outliers_thresholds
 
   message(paste(
     "[NACHO] Returning a list.",
@@ -235,8 +221,6 @@ normalise <- function(
     "  $ pc_sum              : data.frame",
     "  $ nacho               : data.frame",
     "  $ outliers_thresholds : list",
-    "  $ raw_counts          : data.frame",
-    "  $ normalised_counts   : data.frame",
     sep = "\n"
   ))
 

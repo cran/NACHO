@@ -4,7 +4,16 @@
 \alias{plot_acbd}
 \title{plot_acbd}
 \usage{
-plot_acbd(nacho_object, x, colour, size, show_legend)
+plot_acbd(
+  nacho_object,
+  x,
+  colour,
+  size,
+  show_legend,
+  show_outliers,
+  outliers_factor,
+  outliers_labels
+)
 }
 \arguments{
 \item{x}{[\link{character}] Character string naming the quality-control metrics to plot from \code{nacho_object}.
@@ -12,7 +21,7 @@ The possible values are:
 \itemize{
 \item \code{"BD"} (Binding Density)
 \item \code{"FoV"} (Imaging)
-\item \code{"PC"} (Positive Control Linearity)
+\item \code{"PCL"} (Positive Control Linearity)
 \item \code{"LoD"} (Limit of Detection)
 \item \code{"Positive"} (Positive Controls)
 \item \code{"Negative"} (Negative Controls)
@@ -31,11 +40,20 @@ The possible values are:
 \item{colour}{[\link{character}] Character string of the column in \code{ssheet_csv}
 or more generally in \code{nacho_object$nacho} to be used as grouping colour.}
 
-\item{size}{[\link{numeric}] A \code{numeric} controlling point size (\link{geom_point} or \link{geom_beeswarm})
-or line size (\link{geom_line}).}
+\item{size}{[\link{numeric}] A numeric controlling point size
+(\code{\link[ggplot2:geom_point]{ggplot2::geom_point()}} or #' \code{\link[ggbeeswarm:geom_beeswarm]{ggbeeswarm::geom_beeswarm()}})
+or line size (\code{\link[ggplot2:geom_line]{ggplot2::geom_line()}}).}
 
 \item{show_legend}{[\link{logical}] Boolean to indicate whether the plot legends should
 be plotted (\code{TRUE}) or not (\code{FALSE}). Default is \code{TRUE}.}
+
+\item{show_outliers}{[\link{logical}] Boolean to indicate whether the outliers should be highlighted
+in red (\code{TRUE}) or not (\code{FALSE}). Default is \code{TRUE}.}
+
+\item{outliers_factor}{[\link{numeric}] Size factor for outliers compared to \code{size}. Default is \code{1}.}
+
+\item{outliers_labels}{[\link{character}] Character to indicate which column in \code{nacho_object$nacho}
+should be used to be printed as the labels for outliers or not. Default is \code{NULL}.}
 }
 \description{
 plot_acbd

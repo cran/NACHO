@@ -3,19 +3,22 @@
 \name{normalise}
 \alias{normalise}
 \alias{normalize}
-\title{(re)Normalise a dataset read from \link{summarise}}
+\title{(re)Normalise a \code{"nacho"} object}
 \usage{
-normalise(nacho_object,
+normalise(
+  nacho_object,
   housekeeping_genes = nacho_object[["housekeeping_genes"]],
   housekeeping_predict = nacho_object[["housekeeping_predict"]],
   housekeeping_norm = nacho_object[["housekeeping_norm"]],
   normalisation_method = nacho_object[["normalisation_method"]],
   n_comp = nacho_object[["n_comp"]],
   remove_outliers = nacho_object[["remove_outliers"]],
-  outliers_thresholds = nacho_object[["outliers_thresholds"]])
+  outliers_thresholds = nacho_object[["outliers_thresholds"]]
+)
 }
 \arguments{
-\item{nacho_object}{[\link{list}] List obtained from \link{summarise} or \link{normalise}.}
+\item{nacho_object}{[\link{list}] A list object of class \code{"nacho"} obtained
+from \code{\link[=load_rcc]{load_rcc()}} or \code{\link[=normalise]{normalise()}}.}
 
 \item{housekeeping_genes}{[\link{character}] A vector of names of the miRNAs/mRNAs
 that should be used as housekeeping genes. Default is \code{NULL}.}
@@ -23,8 +26,8 @@ that should be used as housekeeping genes. Default is \code{NULL}.}
 \item{housekeeping_predict}{[\link{logical}] Boolean to indicate whether the housekeeping genes
 should be predicted (\code{TRUE}) or not (\code{FALSE}). Default is \code{FALSE}.}
 
-\item{housekeeping_norm}{[\link{logical}] Boolean to indicate whether the housekeeping normalisation should be performed.
-Default is \code{TRUE}.}
+\item{housekeeping_norm}{[\link{logical}] Boolean to indicate whether the housekeeping normalisation
+should be performed. Default is \code{TRUE}.}
 
 \item{normalisation_method}{[\link{character}] Either \code{"GEO"} or \code{"GLM"}.
 Character string to indicate normalisation using the geometric mean (\code{"GEO"})
@@ -40,14 +43,14 @@ Cannot be more than n-1 samples. Default is \code{10}.}
 \value{
 [\link{list}] A list containing parameters and data.
 \describe{
-\item{\code{access}}{[\link{character}] Value passed to \link{summarise} in \code{id_colname}.}
-\item{\code{housekeeping_genes}}{[\link{character}] Value passed to \link{summarise} or \link{normalise}.}
-\item{\code{housekeeping_predict}}{[\link{logical}] Value passed to \link{summarise}.}
-\item{\code{housekeeping_norm}}{[\link{logical}] Value passed to \link{summarise} or \link{normalise}.}
-\item{\code{normalisation_method}}{[\link{character}] Value passed to \link{summarise} or \link{normalise}.}
-\item{\code{remove_outliers}}{[\link{logical}] Value passed to \link{normalise}.}
-\item{\code{n_comp}}{[\link{numeric}] Value passed to \link{summarise}.}
-\item{\code{data_directory}}{[\link{character}] Value passed to \link{summarise}.}
+\item{\code{access}}{[\link{character}] Value passed to \code{\link[=load_rcc]{load_rcc()}} in \code{id_colname}.}
+\item{\code{housekeeping_genes}}{[\link{character}] Value passed to \code{\link[=load_rcc]{load_rcc()}} or \code{\link[=normalise]{normalise()}}.}
+\item{\code{housekeeping_predict}}{[\link{logical}] Value passed to \code{\link[=load_rcc]{load_rcc()}}.}
+\item{\code{housekeeping_norm}}{[\link{logical}] Value passed to \code{\link[=load_rcc]{load_rcc()}} or \code{\link[=normalise]{normalise()}}.}
+\item{\code{normalisation_method}}{[\link{character}] Value passed to \code{\link[=load_rcc]{load_rcc()}} or \code{\link[=normalise]{normalise()}}.}
+\item{\code{remove_outliers}}{[\link{logical}] Value passed to \code{\link[=normalise]{normalise()}}.}
+\item{\code{n_comp}}{[\link{numeric}] Value passed to \code{\link[=load_rcc]{load_rcc()}}.}
+\item{\code{data_directory}}{[\link{character}] Value passed to \code{\link[=load_rcc]{load_rcc()}}.}
 \item{\code{pc_sum}}{[\link{data.frame}] A \code{data.frame} with \code{n_comp} rows and four columns:
 "Standard deviation", "Proportion of Variance", "Cumulative Proportion" and "PC".}
 \item{\code{nacho}}{[\link{data.frame}] A \code{data.frame} with all columns from the sample sheet \code{ssheet_csv}
@@ -63,15 +66,15 @@ With \code{"CodeClass"} (first column)), the type of the probes and
 }
 \description{
 This function creates a list in which your settings, the raw counts and normalised counts are stored,
-using the result from a call to \link{summarise}.
+using the result from a call to \code{\link[=load_rcc]{load_rcc()}}.
 }
 \details{
-Outliers definition (\code{remove_outliers}):
+Outliers definition (\code{remove_outliers = TRUE}):
 \itemize{
 \item Binding Density (\code{BD}) < 0.1
 \item Binding Density (\code{BD}) > 2.25
-\item Imaging (\code{FoV}) < 75
-\item Positive Control Linearity (\code{PC}) < 0.95
+\item Field of View (\code{FoV}) < 75
+\item Positive Control Linearity (\code{PCL}) < 0.95
 \item Limit of Detection (\code{LoD}) < 2
 \item Positive normalisation factor (\code{Positive_factor}) < 0.25
 \item Positive normalisation factor (\code{Positive_factor}) > 4
@@ -112,7 +115,7 @@ if (interactive()) {
   )
 
   # Read RCC files and format
-  nacho <- summarise(
+  nacho <- load_rcc(
     data_directory = paste0(tempdir(), "/GSE74821"),
     ssheet_csv = paste0(tempdir(), "/GSE74821/Samplesheet.csv"),
     id_colname = "IDFILE"

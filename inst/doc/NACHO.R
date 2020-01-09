@@ -1,4 +1,4 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   eval = TRUE,
   collapse = TRUE,
@@ -16,23 +16,39 @@ knitr::opts_chunk$set(
   cache = FALSE
 )
 
-## ----logo, echo = FALSE, out.width = "150px"-----------------------------
+## ----logo, echo = FALSE, out.width = "150px"----------------------------------
 knitr::include_graphics(path = "nacho_hex.png")
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  # Install NACHO from CRAN:
 #  install.packages("NACHO")
 #  
 #  # Or the the development version from GitHub:
-#  # install.packages("devtools")
-#  devtools::install_github("mcanouil/NACHO")
+#  # install.packages("remotes")
+#  remotes::install_github("mcanouil/NACHO")
 
-## ----ex1, eval = FALSE---------------------------------------------------
+## ---- message = FALSE---------------------------------------------------------
+# Load NACHO
+library(NACHO)
+
+## ---- echo = FALSE, results = "asis"------------------------------------------
+cat(readLines(system.file("app", "www", "about-nacho.md", package = "NACHO"))[-c(1, 2)], sep = "\n")
+
+## ---- echo = FALSE, results = "asis"------------------------------------------
+print(citation("NACHO"), "html")
+
+## ---- echo = FALSE, comment = ""----------------------------------------------
+print(citation("NACHO"), "bibtex")
+
+## ----ex1, eval = FALSE--------------------------------------------------------
 #  library(NACHO)
 #  data(GSE74821)
 #  visualise(GSE74821)
 
-## ----geo_down, echo = FALSE, warning = FALSE, message = FALSE, error = FALSE----
+## ----ex1-fig, echo = FALSE, out.width = "650px"-------------------------------
+knitr::include_graphics(path = "README-visualise.png")
+
+## ----geo-down, echo = FALSE, warning = FALSE, message = FALSE, error = FALSE----
 gse <- try({GEOquery::getGEO("GSE70970")}, silent = TRUE)
 if (class(gse)=="try-error") { # when GEOquery is down
   cons <- showConnections(all = TRUE)
@@ -58,28 +74,30 @@ untar(
 # Add IDs
 targets$IDFILE <- list.files(paste0(tempdir(), "/GSE70970/Data"))
 
-## ----ex3, eval = class(gse)!="try-error"---------------------------------
-library(NACHO)
-GSE70970_sum <- summarise(
+## ---- echo = FALSE, message = FALSE, warning = FALSE, eval = class(gse)!="try-error"----
+tibble::as_tibble(dplyr::select(targets, "IDFILE", dplyr::everything()))
+
+## ----ex3, eval = class(gse)!="try-error"--------------------------------------
+GSE70970_sum <- load_rcc(
   data_directory = paste0(tempdir(), "/GSE70970/Data"), # Where the data is
   ssheet_csv = targets, # The samplesheet
-  id_colname = "IDFILE", # Name of the column that contains the identfiers
+  id_colname = "IDFILE", # Name of the column that contains the unique identfiers
   housekeeping_genes = NULL, # Custom list of housekeeping genes
-  housekeeping_predict = TRUE, # Predict the housekeeping genes based on the data?
+  housekeeping_predict = TRUE, # Whether or not to predict the housekeeping genes
   normalisation_method = "GEO", # Geometric mean or GLM
-  n_comp = 5 # Number indicating the number of principal components to compute. 
+  n_comp = 5 # Number indicating how many principal components should be computed. 
 )
 
-## ---- echo = FALSE, results = "hide", eval = class(gse)!="try-error"-----
+## ---- echo = FALSE, results = "hide", eval = class(gse)!="try-error"----------
 unlink(paste0(tempdir(), "/GSE70970"), recursive = TRUE)
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  visualise(GSE70970_sum)
 
-## ----ex5, eval = class(gse)!="try-error"---------------------------------
+## ----ex5, eval = class(gse)!="try-error"--------------------------------------
 print(GSE70970_sum[["housekeeping_genes"]])
 
-## ----in_text, eval = class(gse)!="try-error", echo = FALSE, results = "asis"----
+## ----intext, eval = class(gse)!="try-error", echo = FALSE, results = "asis"----
 cat(
   "Let's say _", GSE70970_sum[["housekeeping_genes"]][1], 
   "_ and _", GSE70970_sum[["housekeeping_genes"]][2], 
@@ -87,11 +105,11 @@ cat(
   sep = ""
 )
 
-## ----ex6, eval = class(gse)!="try-error"---------------------------------
+## ----ex6, eval = class(gse)!="try-error"--------------------------------------
 my_housekeeping <- GSE70970_sum[["housekeeping_genes"]][-c(1, 2)]
 print(my_housekeeping)
 
-## ----ex7, eval = class(gse)!="try-error"---------------------------------
+## ----ex7, eval = class(gse)!="try-error"--------------------------------------
 GSE70970_norm <- normalise(
   nacho_object = GSE70970_sum,
   housekeeping_genes = my_housekeeping,
@@ -101,7 +119,7 @@ GSE70970_norm <- normalise(
   remove_outliers = TRUE
 )
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  autoplot(
 #    object = GSE74821,
 #    x = "BD",
@@ -110,11 +128,11 @@ GSE70970_norm <- normalise(
 #    show_legend = TRUE
 #  )
 
-## ---- echo = FALSE, results = "asis"-------------------------------------
+## ---- echo = FALSE, results = "asis"------------------------------------------
 metrics <- c(
   "BD" = "Binding Density",
   "FoV" = "Imaging",
-  "PC" = "Positive Control Linearity",
+  "PCL" = "Positive Control Linearity",
   "LoD" = "Limit of Detection",
   "Positive" = "Positive Controls",
   "Negative" = "Negative Controls",
@@ -136,7 +154,16 @@ for (imetric in seq_along(metrics)) {
   cat("\n")
 }
 
-## ---- eval = FALSE-------------------------------------------------------
+## ----deploy, eval = FALSE-----------------------------------------------------
+#  deploy(directory = "/srv/shiny-server", app_name = "NACHO")
+
+## ----app, eval = FALSE--------------------------------------------------------
+#  shiny::runApp(system.file("app", package = "NACHO"))
+
+## ----app-fig, echo = FALSE, out.width = "650px"-------------------------------
+knitr::include_graphics(path = "README-app.png")
+
+## ---- eval = FALSE------------------------------------------------------------
 #  render(
 #    nacho_object = GSE74821,
 #    colour = "CartridgeID",
@@ -147,7 +174,7 @@ for (imetric in seq_along(metrics)) {
 #    clean = TRUE
 #  )
 
-## ---- results = "asis"---------------------------------------------------
+## ----print, results = "asis"--------------------------------------------------
 print(
   x = GSE74821, 
   colour = "CartridgeID", 

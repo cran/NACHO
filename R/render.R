@@ -1,7 +1,7 @@
-#' Render a HTML report from [summarise] or [normalise]
+#' Render a HTML report of a `"nacho"` object
 #'
-#' This function create a `Rmarkdown` script and render it as a HTML document.
-#' The HTML document is a quality-control report using all the metrics from [visualise]
+#' This function create a Rmarkdown script and render it as a HTML document.
+#' The HTML document is a quality-control report using all the metrics from [`visualise()`]
 #' based on recommendations from NanoString.
 #'
 #' @inheritParams normalise
@@ -13,14 +13,21 @@
 #'   (the default output directory is the working directory, *i.e.*, `.`).
 #'   If a path is provided with a filename in `output_file` the directory specified here will take precedence.
 #'   Please note that any directory path provided will create any necessary directories if they do not exist.
-#' @param size [[numeric]] A `numeric` controlling point size ([geom_point] or [geom_beeswarm])
-#'   or line size ([geom_line]).
+#' @param size [[numeric]] A numeric controlling point size
+#'   ([`ggplot2::geom_point()`] or #' [`ggbeeswarm::geom_beeswarm()`])
+#'   or line size ([`ggplot2::geom_line()`]).
 #' @param show_legend [[logical]] Boolean to indicate whether the plot legends should
 #'   be plotted (`TRUE`) or not (`FALSE`). Default is `TRUE`.
+#' @param show_outliers [[logical]] Boolean to indicate whether the outliers should be highlighted
+#'   in red (`TRUE`) or not (`FALSE`). Default is `TRUE`.
+#' @param outliers_factor [[numeric]] Size factor for outliers compared to `size`. Default is `1`.
+#' @param outliers_labels [[character]] Character to indicate which column in `nacho_object$nacho`
+#'   should be used to be printed as the labels for outliers or not. Default is `NULL`.
 #' @param clean [[logical]] Boolean to indicate whether the Rmd and Rdata file used to produce the HTML report
 #'   are removed from `output_dir`. Default is `TRUE`.
 #'
 #' @return NULL
+#'
 #' @importFrom knitr opts_chunk
 #' @importFrom sessioninfo session_info
 #' @export
@@ -37,10 +44,21 @@ render <- function(
   colour = "CartridgeID",
   output_file = "NACHO_QC.html",
   output_dir = ".",
-  size = 0.5,
+  size = 1,
   show_legend = TRUE,
+  show_outliers = TRUE,
+  outliers_factor = 1,
+  outliers_labels = NULL,
   clean = TRUE
 ) {
+  if (missing(nacho_object)) {
+    stop(
+      '[NACHO] "nacho_object" is missing, results from "load_rcc()" and/or "normalise()" is mandatory!'
+    )
+  }
+  if (!attr(nacho_object, "RCC_type") %in% c("n1", "n8")) {
+    stop('[NACHO] RCC type must be either "n1" or "n8"!')
+  }
   temp_dir <- file.path(normalizePath(output_dir), "tmp_nacho")
   dir.create(temp_dir, showWarnings = FALSE)
   temp_file <- file.path(temp_dir, gsub("\\.[^.]+$", ".Rmd", output_file))
@@ -65,29 +83,6 @@ render <- function(
     '    mathjax: default',
     '    df_print: kable',
     '---',
-    sep = "\n",
-    file = temp_file,
-    append = FALSE
-  )
-
-  nacho_hex <- system.file("help", "figures", "nacho_hex.png", package = "NACHO")
-  if (!file.exists(nacho_hex)) {
-    nacho_hex <- grep("figures", list.files(
-      path = system.file(package = "NACHO"),
-      pattern = "nacho_hex.png",
-      recursive = TRUE,
-      full.names = TRUE
-    ), value = TRUE)
-  }
-
-  cat(
-    '\n<center>[![](', nacho_hex, '){width=150px}](https://mcanouil.github.io/NACHO)</center>',
-    file = temp_file,
-    append = TRUE,
-    sep = ""
-  )
-
-  cat(
     '\n',
     '```{r setup, include = FALSE}',
     'options(stringsAsFactors = FALSE)',
@@ -102,37 +97,43 @@ render <- function(
     '  autodep = TRUE,',
     '  fig.align = "center"',
     ')',
+    # 'library(NACHO)',
     '```',
-    sep = "\n",
-    file = temp_file,
-    append = TRUE
-  )
-
-  cat(
     '\n',
-    '```{r nacho_qc}',
+    '```{r logo, out.width = 150}',
+    'knitr::include_graphics(',
+    '  grep(',
+    '    pattern = file.path("figures", "nacho_hex.png"),',
+    '      x = list.files(',
+    '      path = system.file(package = "NACHO"),',
+    '      recursive = TRUE,',
+    '      full.names = TRUE',
+    '    ), value = TRUE',
+    '  )',
+    ')',
+    '```',
+    '\n',
+    '```{r nacho-qc}',
     'print.nacho(',
     '  x = params[["nacho_object"]],',
     paste0('  colour = "', colour, '",'),
     paste0('  size = ', size, ','),
     paste0('  show_legend = ', show_legend, ','),
+    paste0('  show_outliers = ', show_outliers, ','),
+    paste0('  outliers_factor = ', outliers_factor, ','),
+    paste0('  outliers_labels = ', outliers_labels, ','),
     '  echo = TRUE',
     ')',
     '```',
-    sep = "\n",
-    file = temp_file,
-    append = TRUE
-  )
-
-  cat(
-    "\n\n# R session information\n",
-    '```{r session_info, results = "markup"}',
+    '\n\n',
+    '# R session information\n',
+    '```{r session-info, results = "markup"}',
     'options("width" = 110)',
     'sessioninfo::session_info()',
     '```',
     sep = "\n",
     file = temp_file,
-    append = TRUE
+    append = FALSE
   )
 
   rmarkdown::render(

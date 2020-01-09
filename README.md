@@ -1,14 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Nanostring Quality Control Dashboard <img src="man/figures/nacho_hex.png" align="right" width="120" />
+# NAnostring quality Control dasHbOard <img src="man/figures/nacho_hex.png" align="right" width="120" />
 
 <!-- badges: start -->
 
 [![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![GitHub
-tag](https://img.shields.io/github/tag/mcanouil/NACHO.svg?label=latest%20tag)](https://github.com/mcanouil/NACHO)
+tag](https://img.shields.io/github/tag/mcanouil/NACHO.svg?label=latest%20tag&include_prereleases)](https://github.com/mcanouil/NACHO)
 [![Travis-CI Build
 Status](https://travis-ci.org/mcanouil/NACHO.svg?branch=master)](https://travis-ci.org/mcanouil/NACHO)
 [![AppVeyor Build
@@ -21,9 +21,8 @@ Practices](https://bestpractices.coreinfrastructure.org/projects/2719/badge)](ht
 [![cran
 checks\_worst](https://cranchecks.info/badges/worst/NACHO)](https://cran.r-project.org/web/checks/check_results_NACHO.html)
 [![CRAN\_Download\_total](https://cranlogs.r-pkg.org/badges/NACHO)](https://cran.r-project.org/package=NACHO)
-<!--[![cran checks_summary](https://cranchecks.info/badges/summary/NACHO)](https://cran.r-project.org/web/checks/check_results_NACHO.html)-->
-<!--[![CRAN_Download_month](https://cranlogs.r-pkg.org/badges/NACHO?color=brightgreen)](https://cran.r-project.org/package=NACHO)-->
-<!--[![Coverage Status (coveralls)](https://coveralls.io/repos/github/mcanouil/NACHO/badge.svg?branch=master)](https://coveralls.io/github/mcanouil/NACHO?branch=master)-->
+[![R build
+status](https://github.com/mcanouil/NACHO/workflows/R-CMD-check/badge.svg)](https://github.com/mcanouil/NACHO)
 <!-- badges: end -->
 
 ## Installation
@@ -56,9 +55,9 @@ control genes, principal components and sample specific size factors in
 an interactive web application.
 
 With the use of two functions, RCC files are summarised and visualised,
-namely: `summarise()` and `visualise()`.
+namely: `load_rcc()` and `visualise()`.
 
-  - The `summarise()` function is used to preprocess the data.
+  - The `load_rcc()` function is used to preprocess the data.
   - The `visualise()` function initiates a [Shiny-based
     dashboard](https://shiny.rstudio.com/) that visualises all relevant
     QC plots.
@@ -73,12 +72,26 @@ In addition (since v0.6.0) *NACHO* includes two (three) additional
 functions:
 
   - The `render()` function renders a full quality-control report (HTML)
-    based on the results of a call to `summarise()` or `normalise()`
+    based on the results of a call to `load_rcc()` or `normalise()`
     (using `print()` in a Rmarkdown chunk).
   - The `autoplot()` function draws any quality-control metrics from
     `visualise()` and `render()`.
 
-For more `vignette("NACHO")`.
+For more `vignette("NACHO")` and `vignette("NACHO-analysis")`.
+
+### Shiny Application
+
+``` r
+shiny::runApp(system.file("app", package = "NACHO"))
+```
+
+![](man/figures/README-app.png)
+
+``` r
+visualise(GSE74821)
+```
+
+![](man/figures/README-visualise.png)
 
 ## Citing NACHO
 
@@ -92,7 +105,7 @@ Canouil M, Bouland GA, Bonnefond A, Froguel P, Hart L, Slieker R (2019).
 </p>
 
     @Article{,
-      title = {NACHO: an R package for quality control of NanoString nCounter data},
+      title = {{NACHO}: an {R} package for quality control of {NanoString} {nCounter} data},
       author = {Mickaël Canouil and Gerard A. Bouland and Amélie Bonnefond and Philippe Froguel and Leen Hart and Roderick Slieker},
       journal = {Bioinformatics},
       address = {Oxford, England},
