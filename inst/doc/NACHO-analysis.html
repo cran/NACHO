@@ -8,11 +8,11 @@
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Mickaël Canouil, Ph.D., Gerard A. Bouland and Roderick C. Slieker, Ph.D." />
 
-<meta name="date" content="2020-01-09" />
+<meta name="date" content="2020-05-26" />
 
 <title>NACHO Analysis</title>
 
@@ -117,9 +117,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -288,7 +285,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -304,7 +302,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h1 class="title toc-ignore">NACHO Analysis</h1>
 <h3 class="subtitle">A NAnostring quality Control dasHbOard</h3>
 <h4 class="author">Mickaël Canouil, Ph.D., Gerard A. Bouland and Roderick C. Slieker, Ph.D.</h4>
-<h4 class="date">January 09, 2020</h4>
+<h4 class="date">May 26, 2020</h4>
 
 
 <div id="TOC">
@@ -384,7 +382,7 @@ Canouil M, Bouland GA, Bonnefond A, Froguel P, Hart L, Slieker R (2019). “NACH
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="kw">library</span>(tidyr)</a>
 <a class="sourceLine" id="cb3-11" data-line-number="11"><span class="kw">library</span>(tibble)</a>
 <a class="sourceLine" id="cb3-12" data-line-number="12"><span class="kw">library</span>(NACHO)</a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">## ── Conflicts ─────────────────────────────────────────────────────────────────── nacho_conflicts() ──</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">## ── Conflicts ───────────────────────────────────────────────────────────────────── nacho_conflicts() ──</span></a>
 <a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">## x NACHO::summarize() masks dplyr::summarize()</span></a>
 <a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">## </span></a>
 <a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">## Attaching package: 'NACHO'</span></a>
@@ -442,31 +440,31 @@ Canouil M, Bouland GA, Bonnefond A, Froguel P, Hart L, Slieker R (2019). “NACH
 <a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">## )</span></a>
 <a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">## See spec(...) for full column specifications.</span></a>
 <a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">## File stored at:</span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">## /tmp/Rtmp2fqDkM/GPL20699.soft</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">## /tmp/RtmpVNOmbj/GPL20699.soft</span></a>
 <a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co"># Get phenotypes</span></a>
 <a class="sourceLine" id="cb4-16" data-line-number="16">targets &lt;-<span class="st"> </span><span class="kw">pData</span>(<span class="kw">phenoData</span>(gse[[<span class="dv">1</span>]]))</a>
 <a class="sourceLine" id="cb4-17" data-line-number="17"><span class="kw">getGEOSuppFiles</span>(<span class="dt">GEO =</span> <span class="st">&quot;GSE70970&quot;</span>, <span class="dt">baseDir =</span> <span class="kw">tempdir</span>())</a>
 <a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">##                                                                    size isdir</span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">## /tmp/Rtmp2fqDkM/GSE70970/GSE70970_RAW.tar                       1986560 FALSE</span></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">## /tmp/Rtmp2fqDkM/GSE70970/GSE70970_characteristics_readme.txt.gz     672 FALSE</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">## /tmp/RtmpVNOmbj/GSE70970/GSE70970_RAW.tar                       1986560 FALSE</span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">## /tmp/RtmpVNOmbj/GSE70970/GSE70970_characteristics_readme.txt.gz     672 FALSE</span></a>
 <a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">##                                                                 mode</span></a>
-<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">## /tmp/Rtmp2fqDkM/GSE70970/GSE70970_RAW.tar                        644</span></a>
-<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">## /tmp/Rtmp2fqDkM/GSE70970/GSE70970_characteristics_readme.txt.gz  644</span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">## /tmp/RtmpVNOmbj/GSE70970/GSE70970_RAW.tar                        644</span></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">## /tmp/RtmpVNOmbj/GSE70970/GSE70970_characteristics_readme.txt.gz  644</span></a>
 <a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">##                                                                               mtime</span></a>
-<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">## /tmp/Rtmp2fqDkM/GSE70970/GSE70970_RAW.tar                       2020-01-09 17:37:30</span></a>
-<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co">## /tmp/Rtmp2fqDkM/GSE70970/GSE70970_characteristics_readme.txt.gz 2020-01-09 17:37:31</span></a>
+<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">## /tmp/RtmpVNOmbj/GSE70970/GSE70970_RAW.tar                       2020-05-26 17:20:54</span></a>
+<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co">## /tmp/RtmpVNOmbj/GSE70970/GSE70970_characteristics_readme.txt.gz 2020-05-26 17:20:55</span></a>
 <a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co">##                                                                               ctime</span></a>
-<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">## /tmp/Rtmp2fqDkM/GSE70970/GSE70970_RAW.tar                       2020-01-09 17:37:30</span></a>
-<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">## /tmp/Rtmp2fqDkM/GSE70970/GSE70970_characteristics_readme.txt.gz 2020-01-09 17:37:31</span></a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">## /tmp/RtmpVNOmbj/GSE70970/GSE70970_RAW.tar                       2020-05-26 17:20:54</span></a>
+<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">## /tmp/RtmpVNOmbj/GSE70970/GSE70970_characteristics_readme.txt.gz 2020-05-26 17:20:55</span></a>
 <a class="sourceLine" id="cb4-30" data-line-number="30"><span class="co">##                                                                               atime</span></a>
-<a class="sourceLine" id="cb4-31" data-line-number="31"><span class="co">## /tmp/Rtmp2fqDkM/GSE70970/GSE70970_RAW.tar                       2020-01-09 17:37:29</span></a>
-<a class="sourceLine" id="cb4-32" data-line-number="32"><span class="co">## /tmp/Rtmp2fqDkM/GSE70970/GSE70970_characteristics_readme.txt.gz 2020-01-09 17:37:30</span></a>
+<a class="sourceLine" id="cb4-31" data-line-number="31"><span class="co">## /tmp/RtmpVNOmbj/GSE70970/GSE70970_RAW.tar                       2020-05-26 17:20:53</span></a>
+<a class="sourceLine" id="cb4-32" data-line-number="32"><span class="co">## /tmp/RtmpVNOmbj/GSE70970/GSE70970_characteristics_readme.txt.gz 2020-05-26 17:20:54</span></a>
 <a class="sourceLine" id="cb4-33" data-line-number="33"><span class="co">##                                                                  uid gid</span></a>
-<a class="sourceLine" id="cb4-34" data-line-number="34"><span class="co">## /tmp/Rtmp2fqDkM/GSE70970/GSE70970_RAW.tar                       1738  50</span></a>
-<a class="sourceLine" id="cb4-35" data-line-number="35"><span class="co">## /tmp/Rtmp2fqDkM/GSE70970/GSE70970_characteristics_readme.txt.gz 1738  50</span></a>
+<a class="sourceLine" id="cb4-34" data-line-number="34"><span class="co">## /tmp/RtmpVNOmbj/GSE70970/GSE70970_RAW.tar                       1738  50</span></a>
+<a class="sourceLine" id="cb4-35" data-line-number="35"><span class="co">## /tmp/RtmpVNOmbj/GSE70970/GSE70970_characteristics_readme.txt.gz 1738  50</span></a>
 <a class="sourceLine" id="cb4-36" data-line-number="36"><span class="co">##                                                                    uname grname</span></a>
-<a class="sourceLine" id="cb4-37" data-line-number="37"><span class="co">## /tmp/Rtmp2fqDkM/GSE70970/GSE70970_RAW.tar                       mcanouil  staff</span></a>
-<a class="sourceLine" id="cb4-38" data-line-number="38"><span class="co">## /tmp/Rtmp2fqDkM/GSE70970/GSE70970_characteristics_readme.txt.gz mcanouil  staff</span></a>
+<a class="sourceLine" id="cb4-37" data-line-number="37"><span class="co">## /tmp/RtmpVNOmbj/GSE70970/GSE70970_RAW.tar                       mcanouil  staff</span></a>
+<a class="sourceLine" id="cb4-38" data-line-number="38"><span class="co">## /tmp/RtmpVNOmbj/GSE70970/GSE70970_characteristics_readme.txt.gz mcanouil  staff</span></a>
 <a class="sourceLine" id="cb4-39" data-line-number="39"><span class="co"># Unzip data</span></a>
 <a class="sourceLine" id="cb4-40" data-line-number="40"><span class="kw">untar</span>(</a>
 <a class="sourceLine" id="cb4-41" data-line-number="41">  <span class="dt">tarfile =</span> <span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">&quot;GSE70970&quot;</span>, <span class="st">&quot;GSE70970_RAW.tar&quot;</span>), </a>

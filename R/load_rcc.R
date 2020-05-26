@@ -1,4 +1,4 @@
-#' Produce a `"nacho"` object from RCC NanoString files
+#' Produce a "nacho" object from RCC NanoString files
 #'
 #' This function is used to preprocess the data from NanoString nCounter.
 #'
@@ -35,12 +35,6 @@
 #'   \item{`nacho`}{[[data.frame]] A `data.frame` with all columns from the sample sheet `ssheet_csv`
 #'     and all computed columns, *i.e.*, quality-control metrics and counts, with one sample per row.}
 #'   \item{`outliers_thresholds`}{[[list]] A `list` of the (default) quality-control thresholds used.}
-#'   \item{`raw_counts`}{[[data.frame]] Raw counts with probes as rows and samples as columns.
-#'     With `"CodeClass"` (first column), the type of the probes and
-#'     `"Name"` (second column), the Name of the probes.}
-#'   \item{`normalised_counts`}{[[data.frame]] Normalised counts with probes as rows and samples as columns.
-#'     With `"CodeClass"` (first column)), the type of the probes and
-#'     `"Name"` (second column), the name of the probes.}
 #' }
 #'
 #' @export
@@ -56,23 +50,23 @@
 #'   targets <- Biobase::pData(Biobase::phenoData(gse[[1]]))
 #'   GEOquery::getGEOSuppFiles(GEO = "GSE74821", baseDir = tempdir())
 #'   utils::untar(
-#'     tarfile = paste0(tempdir(), "/GSE74821/GSE74821_RAW.tar"),
-#'     exdir = paste0(tempdir(), "/GSE74821")
+#'     tarfile = file.path(tempdir(), "GSE74821", "GSE74821_RAW.tar"),
+#'     exdir = file.path(tempdir(), "GSE74821")
 #'   )
 #'   targets$IDFILE <- list.files(
-#'     path = paste0(tempdir(), "/GSE74821"),
+#'     path = file.path(tempdir(), "GSE74821"),
 #'     pattern = ".RCC.gz$"
 #'   )
 #'   targets[] <- lapply(X = targets, FUN = iconv, from = "latin1", to = "ASCII")
 #'   utils::write.csv(
 #'     x = targets,
-#'     file = paste0(tempdir(), "/GSE74821/Samplesheet.csv")
+#'     file = file.path(tempdir(), "GSE74821", "Samplesheet.csv")
 #'   )
 #'
 #'   # Read RCC files and format
 #'   nacho <- load_rcc(
-#'     data_directory = paste0(tempdir(), "/GSE74821"),
-#'     ssheet_csv = paste0(tempdir(), "/GSE74821/Samplesheet.csv"),
+#'     data_directory = file.path(tempdir(), "GSE74821"),
+#'     ssheet_csv = file.path(tempdir(), "GSE74821", "Samplesheet.csv"),
 #'     id_colname = "IDFILE"
 #'   )
 #' }
@@ -94,9 +88,9 @@ load_rcc <- function(
 
   message("[NACHO] Importing RCC files.")
   nacho_df <- switch(
-    EXPR = class(ssheet_csv),
-    "data.frame" = ssheet_csv,
-    "character" = utils::read.csv(file = ssheet_csv, header = TRUE, sep = ",", stringsAsFactors = FALSE),
+    EXPR = paste(inherits(ssheet_csv, c("data.frame", "character"), TRUE), collapse = ""),
+    "10" = ssheet_csv,
+    "01" = utils::read.csv(file = ssheet_csv, header = TRUE, sep = ",", stringsAsFactors = FALSE),
     stop('[NACHO] "ssheet_csv" must be a "data.frame" or path to csv.')
   )
 

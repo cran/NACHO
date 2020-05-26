@@ -77,15 +77,16 @@ functions:
   - The `autoplot()` function draws any quality-control metrics from
     `visualise()` and `render()`.
 
-For more `vignette("NACHO")` and `vignette("NACHO-analysis")`.
+For more `vignette("NACHO")` and
+`vignette("NACHO-analysis")`.
 
-### Shiny Application
+### Shiny Application ([demo](https://mcanouil.shinyapps.io/NACHO_data/))
 
 ``` r
 shiny::runApp(system.file("app", package = "NACHO"))
 ```
 
-![](man/figures/README-app.png)
+<img src="man/figures/README-nacho_app.gif" width="100%" />
 
 ``` r
 visualise(GSE74821)

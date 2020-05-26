@@ -50,7 +50,7 @@ knitr::include_graphics(path = "README-visualise.png")
 
 ## ----geo-down, echo = FALSE, warning = FALSE, message = FALSE, error = FALSE----
 gse <- try({GEOquery::getGEO("GSE70970")}, silent = TRUE)
-if (class(gse)=="try-error") { # when GEOquery is down
+if (inherits(gse, "try-error")) { # when GEOquery is down
   cons <- showConnections(all = TRUE)
   icons <- which(grepl("GSE70970", cons[, "description"])) - 1
   for (icon in icons) close(getConnection(icon))
@@ -59,7 +59,7 @@ if (class(gse)=="try-error") { # when GEOquery is down
   )
 }
 
-## ----ex2, results = "hide", message = FALSE, warning = FALSE, eval = class(gse)!="try-error"----
+## ----ex2, results = "hide", message = FALSE, warning = FALSE, eval = !inherits(gse, "try-error")----
 library(GEOquery)
 # Download data
 gse <- getGEO("GSE70970")
@@ -68,18 +68,18 @@ targets <- pData(phenoData(gse[[1]]))
 getGEOSuppFiles(GEO = "GSE70970", baseDir = tempdir())
 # Unzip data
 untar(
-  tarfile = paste0(tempdir(), "/GSE70970/GSE70970_RAW.tar"), 
-  exdir = paste0(tempdir(), "/GSE70970/Data")
+  tarfile = file.path(tempdir(), "GSE70970", "GSE70970_RAW.tar"), 
+  exdir = file.path(tempdir(), "GSE70970", "Data")
 )
 # Add IDs
-targets$IDFILE <- list.files(paste0(tempdir(), "/GSE70970/Data"))
+targets$IDFILE <- list.files(file.path(tempdir(), "GSE70970", "Data"))
 
-## ---- echo = FALSE, message = FALSE, warning = FALSE, eval = class(gse)!="try-error"----
+## ---- echo = FALSE, message = FALSE, warning = FALSE, eval = !inherits(gse, "try-error")----
 tibble::as_tibble(dplyr::select(targets, "IDFILE", dplyr::everything()))
 
-## ----ex3, eval = class(gse)!="try-error"--------------------------------------
+## ----ex3, eval = !inherits(gse, "try-error")----------------------------------
 GSE70970_sum <- load_rcc(
-  data_directory = paste0(tempdir(), "/GSE70970/Data"), # Where the data is
+  data_directory = file.path(tempdir(), "GSE70970", "Data"), # Where the data is
   ssheet_csv = targets, # The samplesheet
   id_colname = "IDFILE", # Name of the column that contains the unique identfiers
   housekeeping_genes = NULL, # Custom list of housekeeping genes
@@ -88,16 +88,16 @@ GSE70970_sum <- load_rcc(
   n_comp = 5 # Number indicating how many principal components should be computed. 
 )
 
-## ---- echo = FALSE, results = "hide", eval = class(gse)!="try-error"----------
-unlink(paste0(tempdir(), "/GSE70970"), recursive = TRUE)
+## ---- echo = FALSE, results = "hide", eval = !inherits(gse, "try-error")------
+unlink(file.path(tempdir(), "GSE70970"), recursive = TRUE)
 
 ## ---- eval = FALSE------------------------------------------------------------
 #  visualise(GSE70970_sum)
 
-## ----ex5, eval = class(gse)!="try-error"--------------------------------------
+## ----ex5, eval = !inherits(gse, "try-error")----------------------------------
 print(GSE70970_sum[["housekeeping_genes"]])
 
-## ----intext, eval = class(gse)!="try-error", echo = FALSE, results = "asis"----
+## ----intext, eval = !inherits(gse, "try-error"), echo = FALSE, results = "asis"----
 cat(
   "Let's say _", GSE70970_sum[["housekeeping_genes"]][1], 
   "_ and _", GSE70970_sum[["housekeeping_genes"]][2], 
@@ -105,11 +105,11 @@ cat(
   sep = ""
 )
 
-## ----ex6, eval = class(gse)!="try-error"--------------------------------------
+## ----ex6, eval = !inherits(gse, "try-error")----------------------------------
 my_housekeeping <- GSE70970_sum[["housekeeping_genes"]][-c(1, 2)]
 print(my_housekeeping)
 
-## ----ex7, eval = class(gse)!="try-error"--------------------------------------
+## ----ex7, eval = !inherits(gse, "try-error")----------------------------------
 GSE70970_norm <- normalise(
   nacho_object = GSE70970_sum,
   housekeeping_genes = my_housekeeping,

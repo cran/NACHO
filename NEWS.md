@@ -1,3 +1,15 @@
+# NACHO 1.0.1
+
+## Minor improvements and fixes
+
+* Fix deprecated documentation for `R/load_rcc.R` and `R/normalise.R`.
+* Use `file.path()` in examples and vignette.
+* In `R/autoplot.R`, reduce alpha for ellipses.
+* In `inst/app/utils.R`, set default point size (also for outliers) to `1`.
+* In `R/load_rcc.R`, use `inherits()` instead of `class()`. 
+* Code optimisation.
+
+
 # NACHO 1.0.0
 
 ## New features
