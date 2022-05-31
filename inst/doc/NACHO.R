@@ -11,8 +11,8 @@ knitr::opts_chunk$set(
   # tidy = FALSE,
   # crop = TRUE,
   # autodep = TRUE,
-  fig.align = 'center',
-  fig.pos = '!h',
+  fig.align = "center",
+  fig.pos = "!h",
   cache = FALSE
 )
 
@@ -49,7 +49,7 @@ print(citation("NACHO"), "bibtex")
 knitr::include_graphics(path = "README-visualise.png")
 
 ## ----geo-down, echo = FALSE, warning = FALSE, message = FALSE, error = FALSE----
-gse <- try({GEOquery::getGEO("GSE70970")}, silent = TRUE)
+gse <- try(GEOquery::getGEO("GSE70970"), silent = TRUE)
 if (inherits(gse, "try-error")) { # when GEOquery is down
   cons <- showConnections(all = TRUE)
   icons <- which(grepl("GSE70970", cons[, "description"])) - 1
@@ -63,19 +63,18 @@ if (inherits(gse, "try-error")) { # when GEOquery is down
 library(GEOquery)
 # Download data
 gse <- getGEO("GSE70970")
-# Get phenotypes
-targets <- pData(phenoData(gse[[1]]))
 getGEOSuppFiles(GEO = "GSE70970", baseDir = tempdir())
 # Unzip data
 untar(
-  tarfile = file.path(tempdir(), "GSE70970", "GSE70970_RAW.tar"), 
+  tarfile = file.path(tempdir(), "GSE70970", "GSE70970_RAW.tar"),
   exdir = file.path(tempdir(), "GSE70970", "Data")
 )
-# Add IDs
+# Get phenotypes and add IDs
+targets <- pData(phenoData(gse[[1]]))
 targets$IDFILE <- list.files(file.path(tempdir(), "GSE70970", "Data"))
 
 ## ---- echo = FALSE, message = FALSE, warning = FALSE, eval = !inherits(gse, "try-error")----
-tibble::as_tibble(dplyr::select(targets, "IDFILE", dplyr::everything()))
+targets[1:5, unique(c("IDFILE", names(targets)))]
 
 ## ----ex3, eval = !inherits(gse, "try-error")----------------------------------
 GSE70970_sum <- load_rcc(
@@ -85,13 +84,13 @@ GSE70970_sum <- load_rcc(
   housekeeping_genes = NULL, # Custom list of housekeeping genes
   housekeeping_predict = TRUE, # Whether or not to predict the housekeeping genes
   normalisation_method = "GEO", # Geometric mean or GLM
-  n_comp = 5 # Number indicating how many principal components should be computed. 
+  n_comp = 5 # Number indicating how many principal components should be computed.
 )
 
 ## ---- echo = FALSE, results = "hide", eval = !inherits(gse, "try-error")------
 unlink(file.path(tempdir(), "GSE70970"), recursive = TRUE)
 
-## ---- eval = FALSE------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #  visualise(GSE70970_sum)
 
 ## ----ex5, eval = !inherits(gse, "try-error")----------------------------------
@@ -99,13 +98,13 @@ print(GSE70970_sum[["housekeeping_genes"]])
 
 ## ----intext, eval = !inherits(gse, "try-error"), echo = FALSE, results = "asis"----
 cat(
-  "Let's say _", GSE70970_sum[["housekeeping_genes"]][1], 
-  "_ and _", GSE70970_sum[["housekeeping_genes"]][2], 
+  "Let's say _", GSE70970_sum[["housekeeping_genes"]][1],
+  "_ and _", GSE70970_sum[["housekeeping_genes"]][2],
   "_ are not suitable, therefore, you want to exclude these genes from the normalisation process.",
   sep = ""
 )
 
-## ----ex6, eval = !inherits(gse, "try-error")----------------------------------
+## ---- eval = !inherits(gse, "try-error")--------------------------------------
 my_housekeeping <- GSE70970_sum[["housekeeping_genes"]][-c(1, 2)]
 print(my_housekeeping)
 
@@ -115,7 +114,7 @@ GSE70970_norm <- normalise(
   housekeeping_genes = my_housekeeping,
   housekeeping_predict = FALSE,
   housekeeping_norm = TRUE,
-  normalisation_method = "GEO", 
+  normalisation_method = "GEO",
   remove_outliers = TRUE
 )
 
@@ -176,11 +175,11 @@ knitr::include_graphics(path = "README-app.png")
 
 ## ----print, results = "asis"--------------------------------------------------
 print(
-  x = GSE74821, 
-  colour = "CartridgeID", 
-  size = 0.5, 
-  show_legend = TRUE, 
-  echo = TRUE, 
+  x = GSE74821,
+  colour = "CartridgeID",
+  size = 0.5,
+  show_legend = TRUE,
+  echo = TRUE,
   title_level = 3
 )
 

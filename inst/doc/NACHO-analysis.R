@@ -11,8 +11,7 @@ knitr::opts_chunk$set(
   # tidy = FALSE,
   # crop = TRUE,
   # autodep = TRUE,
-  fig.align = 'center',
-  fig.pos = '!h',
+  fig.align = "center",
   cache = FALSE
 )
 
@@ -37,26 +36,22 @@ print(citation("NACHO"), "html")
 print(citation("NACHO"), "bibtex")
 
 ## -----------------------------------------------------------------------------
-library(dplyr)
-library(tidyr)
-library(tibble)
 library(NACHO)
-library(GEOquery)
+library(GEOquery, quietly = TRUE, warn.conflicts = FALSE)
 
 ## -----------------------------------------------------------------------------
 data_directory <- file.path(tempdir(), "GSE70970", "Data")
 
 # Download data
 gse <- getGEO("GSE70970")
-# Get phenotypes
-targets <- pData(phenoData(gse[[1]]))
 getGEOSuppFiles(GEO = "GSE70970", baseDir = tempdir())
 # Unzip data
 untar(
-  tarfile = file.path(tempdir(), "GSE70970", "GSE70970_RAW.tar"), 
+  tarfile = file.path(tempdir(), "GSE70970", "GSE70970_RAW.tar"),
   exdir = data_directory
 )
-# Add IDs
+# Get phenotypes and add IDs
+targets <- pData(phenoData(gse[[1]]))
 targets$IDFILE <- list.files(data_directory)
 
 ## -----------------------------------------------------------------------------
@@ -66,38 +61,42 @@ GSE70970 <- load_rcc(data_directory, targets, id_colname = "IDFILE")
 library(limma)
 
 ## -----------------------------------------------------------------------------
-selected_pheno <- GSE70970[["nacho"]] %>% 
-  select(IDFILE, `age:ch1`, `gender:ch1`, `chemo:ch1`, `disease.event:ch1`) %>% 
-  distinct() %>% 
-  mutate_all(~ na_if(.x, "NA")) %>% 
-  drop_na()
+selected_pheno <- GSE70970[["nacho"]][
+  j = lapply(unique(.SD), function(x) ifelse(x == "NA", NA, x)),
+  .SDcols = c("IDFILE", "age:ch1", "gender:ch1", "chemo:ch1", "disease.event:ch1")
+]
+selected_pheno <- na.exclude(selected_pheno)
 
 ## ---- echo = FALSE------------------------------------------------------------
 head(selected_pheno)
 
 ## -----------------------------------------------------------------------------
-expr_counts <- GSE70970[["nacho"]] %>% 
-  filter(grepl("Endogenous", CodeClass)) %>% 
-  select(IDFILE, Name, Count_Norm) %>% 
-  pivot_wider(names_from = "Name", values_from = "Count_Norm") %>% 
-  column_to_rownames("IDFILE") %>% 
-  t()
+expr_counts <- GSE70970[["nacho"]][
+  i = grepl("Endogenous", CodeClass),
+  j = as.matrix(
+    dcast(.SD, Name ~ IDFILE, value.var = "Count_Norm"),
+    "Name"
+  ),
+  .SDcols = c("IDFILE", "Name", "Count_Norm")
+]
 
 ## ---- echo = FALSE------------------------------------------------------------
 expr_counts[1:5, 1:5]
 
 ## ---- eval = FALSE------------------------------------------------------------
-#  GSE70970[["nacho"]] %>%
-#    filter(grepl("Endogenous", CodeClass)) %>%
-#    select(IDFILE, Accession, Count_Norm) %>%
-#    pivot_wider(names_from = "Accession", values_from = "Count_Norm") %>%
-#    column_to_rownames("IDFILE") %>%
-#    t()
+#  GSE70970[["nacho"]][
+#    i = grepl("Endogenous", CodeClass),
+#    j = as.matrix(
+#      dcast(.SD, Accession ~ IDFILE, value.var = "Count_Norm"),
+#      "Accession"
+#    ),
+#    .SDcols = c("IDFILE", "Accession", "Count_Norm")
+#  ]
 
 ## -----------------------------------------------------------------------------
 samples_kept <- intersect(selected_pheno[["IDFILE"]], colnames(expr_counts))
 expr_counts <- expr_counts[, samples_kept]
-selected_pheno <- filter(selected_pheno, IDFILE %in% !!samples_kept)
+selected_pheno <- selected_pheno[IDFILE %in% c(samples_kept)]
 
 ## -----------------------------------------------------------------------------
 design <- model.matrix(~ `disease.event:ch1`, selected_pheno)
@@ -106,23 +105,23 @@ design <- model.matrix(~ `disease.event:ch1`, selected_pheno)
 eBayes(lmFit(expr_counts, design))
 
 ## -----------------------------------------------------------------------------
-library(purrr)
-res <- GSE70970[["nacho"]] %>% 
-  # filter( QC PARAMETER) %>% # possible additional QC filters
-  filter(grepl("Endogenous", CodeClass)) %>% 
-  select(IDFILE, Name, Accession, Count, Count_Norm, `age:ch1`, `gender:ch1`, `chemo:ch1`, `disease.event:ch1`) %>% 
-  mutate_all(~ na_if(.x, "NA")) %>% 
-  drop_na() %>% 
-  group_by(Name, Accession) %>% 
-  nest() %>% 
-  ungroup() %>% 
-  slice(1:10) %>% # the ten first genes
-  mutate(
-    lm = map(.x = data, .f = function(idata) {# lm or whatever model you want
-      as.data.frame(summary(lm(formula = Count_Norm ~ `disease.event:ch1`, idata))$coef)
-    })
-  ) %>% 
-  select(-data)
-
-unnest(res, lm)
+GSE70970[["nacho"]][
+  i = grepl("Endogenous", CodeClass),
+  j = lapply(unique(.SD), function(x) ifelse(x == "NA", NA, x)),
+  .SDcols = c(
+    "IDFILE", "Name", "Accession", "Count", "Count_Norm",
+    "age:ch1", "gender:ch1", "chemo:ch1", "disease.event:ch1"
+  )
+][
+  Name %in% head(unique(Name), 10)
+][
+  j = as.data.table(
+    coef(summary(lm(
+      formula = Count_Norm ~ `disease.event:ch1`,
+      data = na.exclude(.SD)
+    ))),
+    "term"
+  ),
+  by = c("Name", "Accession")
+]
 

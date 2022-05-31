@@ -1,15 +1,16 @@
 library(testthat)
 library(NACHO)
 
-rcc_files_directory <- "testthat/plexset_data"
-targets <- data.frame(stringsAsFactors = FALSE,
-  name = list.files(rcc_files_directory),
-  datapath = list.files(rcc_files_directory, full.names = TRUE)
-)
-targets$IDFILE <- basename(targets$datapath)
-targets$plexset_id <- rep(list(paste0("S", 1:8)), each = nrow(targets))
-plexset_tidy <- as.data.frame(tidyr::unnest(targets, "plexset_id"))
+# setwd("tests")
 
+rcc_files_directory <- "testthat/plexset_data"
+plexset_files <- list.files(rcc_files_directory, full.names = TRUE, pattern = "\\.RCC")
+plexset_tidy <- data.frame(stringsAsFactors = FALSE,
+  name = basename(plexset_files),
+  datapath = plexset_files,
+  IDFILE = basename(plexset_files),
+  plexset_id = rep(paste0("S", seq_len(8)), each = length(plexset_files))
+)
 plexset_nacho <- load_rcc(
   data_directory = rcc_files_directory,
   ssheet_csv = plexset_tidy,
@@ -17,17 +18,25 @@ plexset_nacho <- load_rcc(
 )
 
 rcc_files_directory <- "testthat/salmon_data"
-targets <- data.frame(stringsAsFactors = FALSE,
-  name = list.files(rcc_files_directory),
-  datapath = list.files(rcc_files_directory, full.names = TRUE)
+salmon_files <- list.files(rcc_files_directory, full.names = TRUE, pattern = "\\.RCC")
+salmon_tidy <- data.frame(stringsAsFactors = FALSE,
+  name = basename(salmon_files),
+  datapath = salmon_files,
+  IDFILE = basename(salmon_files),
+  plexset_id = rep(paste0("S", seq_len(8)), each = length(salmon_files))
 )
-targets$IDFILE <- basename(targets$datapath)
-targets$plexset_id <- rep(list(paste0("S", 1:8)), each = nrow(targets))
-salmon_tidy <- as.data.frame(tidyr::unnest(targets, "plexset_id"))
 salmon_nacho <- load_rcc(
   data_directory = rcc_files_directory,
   ssheet_csv = salmon_tidy,
   id_colname = "IDFILE"
+)
+
+rcc_files_directory <- "testthat"
+plexset_salmon_tidy <- data.frame(stringsAsFactors = FALSE,
+  name = list.files(rcc_files_directory, pattern = "\\.RCC", recursive = TRUE),
+  datapath = list.files(rcc_files_directory, full.names = TRUE, pattern = "\\.RCC", recursive = TRUE),
+  IDFILE = basename(list.files(rcc_files_directory, full.names = TRUE, pattern = "\\.RCC", recursive = TRUE)),
+  plexset_id = rep(paste0("S", seq_len(8)), each = length(list.files(rcc_files_directory, pattern = "\\.RCC", recursive = TRUE)))
 )
 
 test_check("NACHO")

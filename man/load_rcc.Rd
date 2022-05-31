@@ -2,13 +2,12 @@
 % Please edit documentation in R/load_rcc.R
 \name{load_rcc}
 \alias{load_rcc}
-\alias{summarize}
 \title{Produce a "nacho" object from RCC NanoString files}
 \usage{
 load_rcc(
   data_directory,
   ssheet_csv,
-  id_colname,
+  id_colname = NULL,
   housekeeping_genes = NULL,
   housekeeping_predict = FALSE,
   housekeeping_norm = TRUE,

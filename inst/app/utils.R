@@ -1,3 +1,7 @@
+`%||%` <- function(x, y) {
+  if (is.null(x)) y else x
+}
+
 panelInputUI <- function(id, label, ..., sidebar = NULL) {
   ns <- shiny::NS(id)
 
@@ -9,7 +13,7 @@ panelInputUI <- function(id, label, ..., sidebar = NULL) {
         shiny::fluidRow(shiny::column(width = 12, align = "center", contents[[1]]))
       )
     },
-    "2"  = {
+    "2" = {
       list(
         shiny::fluidRow(
           shiny::column(width = 6, align = "center", contents[[1]]),
@@ -63,7 +67,7 @@ card <- function(title, body) {
 }
 
 plotInputUI <- function(label = NULL, ...) {
-  id <- tolower(gsub('\\b(\\pL)\\pL|.', '\\U\\1', label, perl = TRUE))
+  id <- tolower(gsub("\\b(\\pL)\\pL|.", "\\U\\1", label, perl = TRUE))
   ns <- shiny::NS(id)
   card(
     title = {
@@ -73,7 +77,7 @@ plotInputUI <- function(label = NULL, ...) {
           circle = TRUE,
           status = "danger",
           size = "sm",
-          icon = shiny::icon("gear"),
+          icon = shiny::icon("gear", verify_fa = FALSE),
           width = "800px",
           inline = TRUE,
           tooltip = shinyWidgets::tooltipOptions(title = "Click to see inputs!"),
@@ -81,7 +85,7 @@ plotInputUI <- function(label = NULL, ...) {
         )
       )
     },
-    body = { shiny::plotOutput(ns("plot"), height = "350px") }
+    body = shiny::plotOutput(ns("plot"), height = "350px")
   )
 }
 
@@ -95,14 +99,15 @@ plotInput <- function(id, nacho) {
           shiny::fluidRow(style = paste0("font-size: ", font_size, "%;"),
              shiny::column(12, align = "center",
               shiny::selectInput(ns("group_colour"), shiny::tags$span("Grouping Variable", shiny::helpText("(Colour)")),
-                selected  = shiny::isolate(input$group_colour) %||% "CartridgeID",
-                choices = c(
+                selected = shiny::isolate(input$group_colour) %||% "CartridgeID",
+                choices = unique(c(
                   "CartridgeID",
                   "Date",
                   "ID",
                   "ScannerID",
-                  "StagePosition"
-                )
+                  "StagePosition",
+                  names(nacho[["nacho"]])
+                ))
               )
             )
           ),
@@ -126,7 +131,9 @@ plotInput <- function(id, nacho) {
           ),
           shiny::fluidRow(style = paste0("font-size: ", font_size, "%;"),
             shiny::column(6, align = "center",
-              shiny::radioButtons(ns("show_outliers_labels"), shiny::tags$span("Outliers' Label", shiny::helpText("(Text)")),
+              shiny::radioButtons(
+                inputId = ns("show_outliers_labels"),
+                label = shiny::tags$span("Outliers' Label", shiny::helpText("(Text)")),
                 choiceNames = list("No", "Yes"),
                 choiceValues = list(FALSE, TRUE),
                 selected = shiny::isolate(input$show_outliers_labels) %||% FALSE,
@@ -134,7 +141,9 @@ plotInput <- function(id, nacho) {
               )
             ),
             shiny::column(6, align = "center",
-              shiny::numericInput(ns("outliers_point_size"), shiny::tags$span("Outliers Point Size", shiny::helpText("(Factor x Point Size)")),
+              shiny::numericInput(
+                inputId = ns("outliers_point_size"),
+                label = shiny::tags$span("Outliers Point Size", shiny::helpText("(Factor x Point Size)")),
                 value = shiny::isolate(input$outliers_point_size) %||% 1,
                 min = 1, max = 3, step = 0.1
               )
@@ -176,7 +185,7 @@ plotInput <- function(id, nacho) {
             )
           ),
           shiny::fluidRow(style = paste0("font-size: ", font_size, "%;"),
-            shiny::column(12, align = "center", style = 'padding-top: 2em;',
+            shiny::column(12, align = "center", style = "padding-top: 2em;",
               shiny::downloadButton(ns("plot_download"), label = "Download")
             )
           )
@@ -217,7 +226,11 @@ plotInput <- function(id, nacho) {
         show_legend = as.logical(input[["show_levels"]] %||% TRUE),
         show_outliers = as.logical(input[["show_outliers"]] %||% TRUE),
         outliers_factor = input[["outliers_point_size"]] %||% 1,
-        outliers_labels = if (as.logical(input[["show_outliers_labels"]] %||% FALSE)) input[["outliers_labels"]] else NULL
+        outliers_labels = if (as.logical(input[["show_outliers_labels"]] %||% FALSE)) {
+          input[["outliers_labels"]]
+        } else {
+          NULL
+        }
       )
       p +
         ggplot2::theme_minimal(base_size = input[["font_size"]] %||% 16) +
@@ -228,7 +241,7 @@ plotInput <- function(id, nacho) {
         )
     })
 
-    output$plot <- shiny::renderPlot({ plot() })
+    output$plot <- shiny::renderPlot(plot())
 
     output$plot_download <- shiny::downloadHandler(
       filename = function() {
@@ -250,7 +263,7 @@ plotInput <- function(id, nacho) {
           "nr" = "NORM"
         )
         x_metrics <- unname(autoplot_values[id])
-        paste0(unname(autoplot_values[id]), ".png")
+        paste0(x_metrics, ".png")
       },
       content = function(file) {
         ggplot2::ggsave(
