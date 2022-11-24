@@ -1,3 +1,12 @@
+# NACHO 2.0.1
+
+## Chores
+
+- In `DESCRIPTION`,
+  - chore: update email address.
+
+**Full Changelog**: <https://github.com/mcanouil/NACHO/compare/v2.0.0...v2.0.1>
+
 # NACHO 2.0.0
 
 ## Major (breaking) changes

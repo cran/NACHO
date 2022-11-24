@@ -60,63 +60,63 @@ if (inherits(gse, "try-error")) { # when GEOquery is down
 }
 
 ## ----ex2, results = "hide", message = FALSE, warning = FALSE, eval = !inherits(gse, "try-error")----
-library(GEOquery)
-# Download data
-gse <- getGEO("GSE70970")
-getGEOSuppFiles(GEO = "GSE70970", baseDir = tempdir())
-# Unzip data
-untar(
-  tarfile = file.path(tempdir(), "GSE70970", "GSE70970_RAW.tar"),
-  exdir = file.path(tempdir(), "GSE70970", "Data")
-)
-# Get phenotypes and add IDs
-targets <- pData(phenoData(gse[[1]]))
-targets$IDFILE <- list.files(file.path(tempdir(), "GSE70970", "Data"))
+#  library(GEOquery)
+#  # Download data
+#  gse <- getGEO("GSE70970")
+#  getGEOSuppFiles(GEO = "GSE70970", baseDir = tempdir())
+#  # Unzip data
+#  untar(
+#    tarfile = file.path(tempdir(), "GSE70970", "GSE70970_RAW.tar"),
+#    exdir = file.path(tempdir(), "GSE70970", "Data")
+#  )
+#  # Get phenotypes and add IDs
+#  targets <- pData(phenoData(gse[[1]]))
+#  targets$IDFILE <- list.files(file.path(tempdir(), "GSE70970", "Data"))
 
 ## ---- echo = FALSE, message = FALSE, warning = FALSE, eval = !inherits(gse, "try-error")----
-targets[1:5, unique(c("IDFILE", names(targets)))]
+#  targets[1:5, unique(c("IDFILE", names(targets)))]
 
 ## ----ex3, eval = !inherits(gse, "try-error")----------------------------------
-GSE70970_sum <- load_rcc(
-  data_directory = file.path(tempdir(), "GSE70970", "Data"), # Where the data is
-  ssheet_csv = targets, # The samplesheet
-  id_colname = "IDFILE", # Name of the column that contains the unique identfiers
-  housekeeping_genes = NULL, # Custom list of housekeeping genes
-  housekeeping_predict = TRUE, # Whether or not to predict the housekeeping genes
-  normalisation_method = "GEO", # Geometric mean or GLM
-  n_comp = 5 # Number indicating how many principal components should be computed.
-)
+#  GSE70970_sum <- load_rcc(
+#    data_directory = file.path(tempdir(), "GSE70970", "Data"), # Where the data is
+#    ssheet_csv = targets, # The samplesheet
+#    id_colname = "IDFILE", # Name of the column that contains the unique identfiers
+#    housekeeping_genes = NULL, # Custom list of housekeeping genes
+#    housekeeping_predict = TRUE, # Whether or not to predict the housekeeping genes
+#    normalisation_method = "GEO", # Geometric mean or GLM
+#    n_comp = 5 # Number indicating how many principal components should be computed.
+#  )
 
 ## ---- echo = FALSE, results = "hide", eval = !inherits(gse, "try-error")------
-unlink(file.path(tempdir(), "GSE70970"), recursive = TRUE)
+#  unlink(file.path(tempdir(), "GSE70970"), recursive = TRUE)
 
 ## -----------------------------------------------------------------------------
 #  visualise(GSE70970_sum)
 
 ## ----ex5, eval = !inherits(gse, "try-error")----------------------------------
-print(GSE70970_sum[["housekeeping_genes"]])
+#  print(GSE70970_sum[["housekeeping_genes"]])
 
 ## ----intext, eval = !inherits(gse, "try-error"), echo = FALSE, results = "asis"----
-cat(
-  "Let's say _", GSE70970_sum[["housekeeping_genes"]][1],
-  "_ and _", GSE70970_sum[["housekeeping_genes"]][2],
-  "_ are not suitable, therefore, you want to exclude these genes from the normalisation process.",
-  sep = ""
-)
+#  cat(
+#    "Let's say _", GSE70970_sum[["housekeeping_genes"]][1],
+#    "_ and _", GSE70970_sum[["housekeeping_genes"]][2],
+#    "_ are not suitable, therefore, you want to exclude these genes from the normalisation process.",
+#    sep = ""
+#  )
 
 ## ---- eval = !inherits(gse, "try-error")--------------------------------------
-my_housekeeping <- GSE70970_sum[["housekeeping_genes"]][-c(1, 2)]
-print(my_housekeeping)
+#  my_housekeeping <- GSE70970_sum[["housekeeping_genes"]][-c(1, 2)]
+#  print(my_housekeeping)
 
 ## ----ex7, eval = !inherits(gse, "try-error")----------------------------------
-GSE70970_norm <- normalise(
-  nacho_object = GSE70970_sum,
-  housekeeping_genes = my_housekeeping,
-  housekeeping_predict = FALSE,
-  housekeeping_norm = TRUE,
-  normalisation_method = "GEO",
-  remove_outliers = TRUE
-)
+#  GSE70970_norm <- normalise(
+#    nacho_object = GSE70970_sum,
+#    housekeeping_genes = my_housekeeping,
+#    housekeeping_predict = FALSE,
+#    housekeeping_norm = TRUE,
+#    normalisation_method = "GEO",
+#    remove_outliers = TRUE
+#  )
 
 ## ---- eval = FALSE------------------------------------------------------------
 #  autoplot(
