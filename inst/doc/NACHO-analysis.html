@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mickaël Canouil, Ph.D., Gerard A. Bouland and Roderick C. Slieker, Ph.D." />
 
-<meta name="date" content="2023-04-01" />
+<meta name="date" content="2023-08-07" />
 
 <title>NACHO Analysis</title>
 
@@ -342,7 +342,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h3 class="subtitle">A NAnostring quality Control dasHbOard</h3>
 <h4 class="author">Mickaël Canouil, Ph.D., Gerard A. Bouland and
 Roderick C. Slieker, Ph.D.</h4>
-<h4 class="date">April 01, 2023</h4>
+<h4 class="date">August 07, 2023</h4>
 
 
 <div id="TOC">
@@ -396,8 +396,8 @@ visualised, namely: <code>load_rcc()</code> and
 <ul>
 <li>The <code>load_rcc()</code> function is used to preprocess the
 data.</li>
-<li>The <code>visualise()</code> function initiates a <a href="https://shiny.rstudio.com/">Shiny-based dashboard</a> that
-visualises all relevant QC plots.</li>
+<li>The <code>visualise()</code> function initiates a <a href="https://shiny.posit.co/">Shiny-based dashboard</a> that visualises
+all relevant QC plots.</li>
 </ul>
 <p><em>NACHO</em> also includes a function <code>normalise()</code>,
 which (re)calculates sample specific size factors and normalises the
@@ -477,35 +477,35 @@ data</h1>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="do">## GSE70970_series_matrix.txt.gz</span></span>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="fu">getGEOSuppFiles</span>(<span class="at">GEO =</span> <span class="st">&quot;GSE70970&quot;</span>, <span class="at">baseDir =</span> <span class="fu">tempdir</span>())</span>
 <span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="do">##                                                                                                                 size</span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_RAW.tar                       1986560</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_characteristics_readme.txt.gz     672</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                       1986560</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz     672</span></span>
 <span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="do">##                                                                                                              isdir</span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_RAW.tar                       FALSE</span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_characteristics_readme.txt.gz FALSE</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                       FALSE</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz FALSE</span></span>
 <span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="do">##                                                                                                              mode</span></span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_RAW.tar                        644</span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_characteristics_readme.txt.gz  644</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                        644</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz  644</span></span>
 <span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="do">##                                                                                                                            mtime</span></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_RAW.tar                       2023-04-01 15:38:10</span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_characteristics_readme.txt.gz 2023-04-01 15:38:11</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                       2023-08-07 20:25:47</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz 2023-08-07 20:25:47</span></span>
 <span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="do">##                                                                                                                            ctime</span></span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_RAW.tar                       2023-04-01 15:38:10</span></span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_characteristics_readme.txt.gz 2023-04-01 15:38:11</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                       2023-08-07 20:25:47</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz 2023-08-07 20:25:47</span></span>
 <span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="do">##                                                                                                                            atime</span></span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_RAW.tar                       2023-04-01 15:38:09</span></span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_characteristics_readme.txt.gz 2023-04-01 15:38:10</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                       2023-08-07 20:25:47</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz 2023-08-07 20:25:47</span></span>
 <span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="do">##                                                                                                              uid</span></span>
-<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_RAW.tar                       501</span></span>
-<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_characteristics_readme.txt.gz 501</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                       501</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz 501</span></span>
 <span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="do">##                                                                                                              gid</span></span>
-<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_RAW.tar                        20</span></span>
-<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_characteristics_readme.txt.gz  20</span></span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                        20</span></span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz  20</span></span>
 <span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a><span class="do">##                                                                                                                 uname</span></span>
-<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_RAW.tar                       mcanouil</span></span>
-<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_characteristics_readme.txt.gz mcanouil</span></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                       mcanouil</span></span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz mcanouil</span></span>
 <span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a><span class="do">##                                                                                                              grname</span></span>
-<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_RAW.tar                        staff</span></span>
-<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//Rtmp2H3b4u/GSE70970/GSE70970_characteristics_readme.txt.gz  staff</span></span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                        staff</span></span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz  staff</span></span>
 <span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a><span class="co"># Unzip data</span></span>
 <span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a><span class="fu">untar</span>(</span>
 <span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a>  <span class="at">tarfile =</span> <span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;GSE70970&quot;</span>, <span class="st">&quot;GSE70970_RAW.tar&quot;</span>),</span>
@@ -542,8 +542,8 @@ phenotypes</h3>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>]</span>
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="do">## Error in eval(expr, envir, enclos): object &#39;GSE70970&#39; not found</span></span>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>selected_pheno <span class="ot">&lt;-</span> <span class="fu">na.exclude</span>(selected_pheno)</span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="do">## Error in na.exclude(selected_pheno): object &#39;selected_pheno&#39; not found</span></span></code></pre></div>
-<pre><code>## Error in head(selected_pheno): object &#39;selected_pheno&#39; not found</code></pre>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="do">## Error in eval(expr, envir, enclos): object &#39;selected_pheno&#39; not found</span></span></code></pre></div>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;selected_pheno&#39; not found</code></pre>
 </div>
 <div id="get-the-normalised-counts" class="section level3" number="3.4.2">
 <h3><span class="header-section-number">3.4.2</span> Get the normalised
@@ -584,12 +584,12 @@ and counts</h3>
 <li>Build the numeric design matrix</li>
 </ol>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span> <span class="st">`</span><span class="at">disease.event:ch1</span><span class="st">`</span>, selected_pheno)</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="do">## Error in terms.formula(object, data = data): object &#39;selected_pheno&#39; not found</span></span></code></pre></div>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="do">## Error in eval(expr, envir, enclos): object &#39;selected_pheno&#39; not found</span></span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li><code>limma</code></li>
 </ol>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">eBayes</span>(<span class="fu">lmFit</span>(expr_counts, design))</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="do">## Error in lmFit(expr_counts, design): object &#39;expr_counts&#39; not found</span></span></code></pre></div>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="do">## Error in eval(expr, envir, enclos): object &#39;expr_counts&#39; not found</span></span></code></pre></div>
 </div>
 </div>
 <div id="perform-the-analyses-using-lm-or-any-other-model" class="section level2" number="3.5">

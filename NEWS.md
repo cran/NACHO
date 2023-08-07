@@ -1,3 +1,19 @@
+# NACHO 2.0.5
+
+## Fixes
+
+- In `R/autoplot.R`,
+  - fix: set `height` in `ggplot2::position_jitter()` to `0` to avoid vertical dispersion points. ([#45](https://github.com/mcanouil/NACHO/issues/45))
+- In `inst/app/www/about-nacho.md`,
+  - fix: shiny[dot]rstudio[dot]com moved to <https://shiny.posit.co/>.
+
+## Tests
+
+- In `tests/testthat/test-load_rcc.R`,
+  - fix: skip tests to decrease CRAN checks computation time.
+
+**Full Changelog**: <https://github.com/mcanouil/NACHO/compare/v2.0.4...v2.0.5>
+
 # NACHO 2.0.4
 
 ## Fixes
