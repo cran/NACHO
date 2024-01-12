@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mickaël Canouil, Ph.D., Gerard A. Bouland and Roderick C. Slieker, Ph.D." />
 
-<meta name="date" content="2023-08-07" />
+<meta name="date" content="2024-01-12" />
 
 <title>NACHO Analysis</title>
 
@@ -51,7 +51,7 @@ overflow: visible;
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -342,7 +342,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h3 class="subtitle">A NAnostring quality Control dasHbOard</h3>
 <h4 class="author">Mickaël Canouil, Ph.D., Gerard A. Bouland and
 Roderick C. Slieker, Ph.D.</h4>
-<h4 class="date">August 07, 2023</h4>
+<h4 class="date">January 12, 2024</h4>
 
 
 <div id="TOC">
@@ -442,29 +442,7 @@ data</h1>
 <h2><span class="header-section-number">3.1</span> Load packages</h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(NACHO)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">library</span>(GEOquery, <span class="at">quietly =</span> <span class="cn">TRUE</span>, <span class="at">warn.conflicts =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="do">## Attaching package: &#39;BiocGenerics&#39;</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="do">## The following object is masked from &#39;package:NACHO&#39;:</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="do">##     normalize</span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="do">## The following objects are masked from &#39;package:stats&#39;:</span></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="do">##     IQR, mad, sd, var, xtabs</span></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="do">## The following objects are masked from &#39;package:base&#39;:</span></span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="do">##     Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,</span></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="do">##     as.data.frame, basename, cbind, colnames, dirname, do.call,</span></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="do">##     duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,</span></span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="do">##     lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,</span></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="do">##     pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,</span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="do">##     tapply, union, unique, unsplit, which.max, which.min</span></span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="do">## Welcome to Bioconductor</span></span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="do">##     Vignettes contain introductory material; view with</span></span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="do">##     &#39;browseVignettes()&#39;. To cite Bioconductor, see</span></span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="do">##     &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.</span></span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="do">## Setting options(&#39;download.file.method.GEOquery&#39;=&#39;auto&#39;)</span></span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="do">## Setting options(&#39;GEOquery.inmemory.gpl&#39;=FALSE)</span></span></code></pre></div>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="do">## Error in library(GEOquery, quietly = TRUE, warn.conflicts = FALSE): there is no package called &#39;GEOquery&#39;</span></span></code></pre></div>
 </div>
 <div id="download-gse70970-from-geo-or-use-your-own-data" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Download
@@ -473,66 +451,36 @@ data</h1>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co"># Download data</span></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>gse <span class="ot">&lt;-</span> <span class="fu">getGEO</span>(<span class="st">&quot;GSE70970&quot;</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="do">## Found 1 file(s)</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="do">## GSE70970_series_matrix.txt.gz</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="fu">getGEOSuppFiles</span>(<span class="at">GEO =</span> <span class="st">&quot;GSE70970&quot;</span>, <span class="at">baseDir =</span> <span class="fu">tempdir</span>())</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="do">##                                                                                                                 size</span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                       1986560</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz     672</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="do">##                                                                                                              isdir</span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                       FALSE</span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz FALSE</span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="do">##                                                                                                              mode</span></span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                        644</span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz  644</span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="do">##                                                                                                                            mtime</span></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                       2023-08-07 20:25:47</span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz 2023-08-07 20:25:47</span></span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="do">##                                                                                                                            ctime</span></span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                       2023-08-07 20:25:47</span></span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz 2023-08-07 20:25:47</span></span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="do">##                                                                                                                            atime</span></span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                       2023-08-07 20:25:47</span></span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz 2023-08-07 20:25:47</span></span>
-<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="do">##                                                                                                              uid</span></span>
-<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                       501</span></span>
-<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz 501</span></span>
-<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="do">##                                                                                                              gid</span></span>
-<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                        20</span></span>
-<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz  20</span></span>
-<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a><span class="do">##                                                                                                                 uname</span></span>
-<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                       mcanouil</span></span>
-<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz mcanouil</span></span>
-<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a><span class="do">##                                                                                                              grname</span></span>
-<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_RAW.tar                        staff</span></span>
-<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a><span class="do">## /var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmprA3xyH/GSE70970/GSE70970_characteristics_readme.txt.gz  staff</span></span>
-<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a><span class="co"># Unzip data</span></span>
-<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a><span class="fu">untar</span>(</span>
-<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a>  <span class="at">tarfile =</span> <span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;GSE70970&quot;</span>, <span class="st">&quot;GSE70970_RAW.tar&quot;</span>),</span>
-<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a>  <span class="at">exdir =</span> data_directory</span>
-<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a>)</span>
-<span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a><span class="co"># Get phenotypes and add IDs</span></span>
-<span id="cb4-44"><a href="#cb4-44" tabindex="-1"></a>targets <span class="ot">&lt;-</span> <span class="fu">pData</span>(<span class="fu">phenoData</span>(gse[[<span class="dv">1</span>]]))</span>
-<span id="cb4-45"><a href="#cb4-45" tabindex="-1"></a>targets<span class="sc">$</span>IDFILE <span class="ot">&lt;-</span> <span class="fu">list.files</span>(data_directory)</span></code></pre></div>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="do">## Error in getGEO(&quot;GSE70970&quot;): could not find function &quot;getGEO&quot;</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="fu">getGEOSuppFiles</span>(<span class="at">GEO =</span> <span class="st">&quot;GSE70970&quot;</span>, <span class="at">baseDir =</span> <span class="fu">tempdir</span>())</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="do">## Error in getGEOSuppFiles(GEO = &quot;GSE70970&quot;, baseDir = tempdir()): could not find function &quot;getGEOSuppFiles&quot;</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co"># Unzip data</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="fu">untar</span>(</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  <span class="at">tarfile =</span> <span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;GSE70970&quot;</span>, <span class="st">&quot;GSE70970_RAW.tar&quot;</span>),</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  <span class="at">exdir =</span> data_directory</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>)</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="do">## Warning in untar(tarfile = file.path(tempdir(), &quot;GSE70970&quot;,</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="do">## &quot;GSE70970_RAW.tar&quot;), : &#39;/usr/bin/tar -xf</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="do">## &#39;/var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmpQG4XyK/GSE70970/GSE70970_RAW.tar&#39;</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="do">## -C</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="do">## &#39;/var/folders/gn/mxv05rj52wd1yg1hb018s4s40000gn/T//RtmpQG4XyK/GSE70970/Data&#39;&#39;</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="do">## returned error code 1</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co"># Get phenotypes and add IDs</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>targets <span class="ot">&lt;-</span> <span class="fu">pData</span>(<span class="fu">phenoData</span>(gse[[<span class="dv">1</span>]]))</span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="do">## Error in pData(phenoData(gse[[1]])): could not find function &quot;pData&quot;</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>targets<span class="sc">$</span>IDFILE <span class="ot">&lt;-</span> <span class="fu">list.files</span>(data_directory)</span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="do">## Error: object &#39;targets&#39; not found</span></span></code></pre></div>
 </div>
 <div id="import-rcc-files" class="section level2" number="3.3">
 <h2><span class="header-section-number">3.3</span> Import RCC files</h2>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>GSE70970 <span class="ot">&lt;-</span> <span class="fu">load_rcc</span>(data_directory, targets, <span class="at">id_colname =</span> <span class="st">&quot;IDFILE&quot;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="do">## [NACHO] Importing RCC files.</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="do">## Error in load_rcc(data_directory, targets, id_colname = &quot;IDFILE&quot;): [NACHO] Multiple Nanostring file/software versions detected.</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="do">##   Please provide a set of files with the same version.</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="do">##   - FileVersion: &#39;1.6&#39;, &#39;1.6&#39;</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="do">##   - SoftwareVersion: &#39;2.1.2.3&#39;, &#39;2.1.1.0005&#39;</span></span></code></pre></div>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="do">## Error in eval(expr, envir, enclos): object &#39;targets&#39; not found</span></span></code></pre></div>
 </div>
 <div id="perform-the-analyses-using-limma" class="section level2" number="3.4">
 <h2><span class="header-section-number">3.4</span> Perform the analyses
 using <code>limma</code></h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(limma)</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="do">## Attaching package: &#39;limma&#39;</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="do">## The following object is masked from &#39;package:BiocGenerics&#39;:</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="do">##     plotMA</span></span></code></pre></div>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="do">## Error in library(limma): there is no package called &#39;limma&#39;</span></span></code></pre></div>
 <div id="get-the-phenotypes" class="section level3" number="3.4.1">
 <h3><span class="header-section-number">3.4.1</span> Get the
 phenotypes</h3>
@@ -575,7 +523,7 @@ and counts</h3>
 <li>Make sure count matrix and phenotypes have the same samples</li>
 </ol>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>samples_kept <span class="ot">&lt;-</span> <span class="fu">intersect</span>(selected_pheno[[<span class="st">&quot;IDFILE&quot;</span>]], <span class="fu">colnames</span>(expr_counts))</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="do">## Error in h(simpleError(msg, call)): error in evaluating the argument &#39;x&#39; in selecting a method for function &#39;intersect&#39;: object &#39;selected_pheno&#39; not found</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="do">## Error in eval(expr, envir, enclos): object &#39;selected_pheno&#39; not found</span></span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>expr_counts <span class="ot">&lt;-</span> expr_counts[, samples_kept]</span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="do">## Error in eval(expr, envir, enclos): object &#39;expr_counts&#39; not found</span></span>
 <span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>selected_pheno <span class="ot">&lt;-</span> selected_pheno[IDFILE <span class="sc">%in%</span> <span class="fu">c</span>(samples_kept)]</span>
@@ -589,7 +537,7 @@ and counts</h3>
 <li><code>limma</code></li>
 </ol>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">eBayes</span>(<span class="fu">lmFit</span>(expr_counts, design))</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="do">## Error in eval(expr, envir, enclos): object &#39;expr_counts&#39; not found</span></span></code></pre></div>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="do">## Error in eBayes(lmFit(expr_counts, design)): could not find function &quot;eBayes&quot;</span></span></code></pre></div>
 </div>
 </div>
 <div id="perform-the-analyses-using-lm-or-any-other-model" class="section level2" number="3.5">

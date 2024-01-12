@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 ## ----logo, echo = FALSE, out.width = "150px"----------------------------------
 knitr::include_graphics(path = "nacho_hex.png")
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  # Install NACHO from CRAN:
 #  install.packages("NACHO")
 #  
@@ -27,17 +27,17 @@ knitr::include_graphics(path = "nacho_hex.png")
 #  # install.packages("remotes")
 #  remotes::install_github("mcanouil/NACHO")
 
-## ---- message = FALSE---------------------------------------------------------
+## ----message = FALSE----------------------------------------------------------
 # Load NACHO
 library(NACHO)
 
-## ---- echo = FALSE, results = "asis"------------------------------------------
+## ----echo = FALSE, results = "asis"-------------------------------------------
 cat(readLines(system.file("app", "www", "about-nacho.md", package = "NACHO"))[-c(1, 2)], sep = "\n")
 
-## ---- echo = FALSE, results = "asis"------------------------------------------
+## ----echo = FALSE, results = "asis"-------------------------------------------
 print(citation("NACHO"), "html")
 
-## ---- echo = FALSE, comment = ""----------------------------------------------
+## ----echo = FALSE, comment = ""-----------------------------------------------
 print(citation("NACHO"), "bibtex")
 
 ## ----ex1, eval = FALSE--------------------------------------------------------
@@ -60,65 +60,65 @@ if (inherits(gse, "try-error")) { # when GEOquery is down
 }
 
 ## ----ex2, results = "hide", message = FALSE, warning = FALSE, eval = !inherits(gse, "try-error")----
-library(GEOquery)
-# Download data
-gse <- getGEO("GSE70970")
-getGEOSuppFiles(GEO = "GSE70970", baseDir = tempdir())
-# Unzip data
-untar(
-  tarfile = file.path(tempdir(), "GSE70970", "GSE70970_RAW.tar"),
-  exdir = file.path(tempdir(), "GSE70970", "Data")
-)
-# Get phenotypes and add IDs
-targets <- pData(phenoData(gse[[1]]))
-targets$IDFILE <- list.files(file.path(tempdir(), "GSE70970", "Data"))
+#  library(GEOquery)
+#  # Download data
+#  gse <- getGEO("GSE70970")
+#  getGEOSuppFiles(GEO = "GSE70970", baseDir = tempdir())
+#  # Unzip data
+#  untar(
+#    tarfile = file.path(tempdir(), "GSE70970", "GSE70970_RAW.tar"),
+#    exdir = file.path(tempdir(), "GSE70970", "Data")
+#  )
+#  # Get phenotypes and add IDs
+#  targets <- pData(phenoData(gse[[1]]))
+#  targets$IDFILE <- list.files(file.path(tempdir(), "GSE70970", "Data"))
 
-## ---- echo = FALSE, message = FALSE, warning = FALSE, eval = !inherits(gse, "try-error")----
-targets[1:5, unique(c("IDFILE", names(targets)))]
+## ----echo = FALSE, message = FALSE, warning = FALSE, eval = !inherits(gse, "try-error")----
+#  targets[1:5, unique(c("IDFILE", names(targets)))]
 
 ## ----ex3, eval = !inherits(gse, "try-error")----------------------------------
-GSE70970_sum <- load_rcc(
-  data_directory = file.path(tempdir(), "GSE70970", "Data"), # Where the data is
-  ssheet_csv = targets, # The samplesheet
-  id_colname = "IDFILE", # Name of the column that contains the unique identfiers
-  housekeeping_genes = NULL, # Custom list of housekeeping genes
-  housekeeping_predict = TRUE, # Whether or not to predict the housekeeping genes
-  normalisation_method = "GEO", # Geometric mean or GLM
-  n_comp = 5 # Number indicating how many principal components should be computed.
-)
+#  GSE70970_sum <- load_rcc(
+#    data_directory = file.path(tempdir(), "GSE70970", "Data"), # Where the data is
+#    ssheet_csv = targets, # The samplesheet
+#    id_colname = "IDFILE", # Name of the column that contains the unique identfiers
+#    housekeeping_genes = NULL, # Custom list of housekeeping genes
+#    housekeeping_predict = TRUE, # Whether or not to predict the housekeeping genes
+#    normalisation_method = "GEO", # Geometric mean or GLM
+#    n_comp = 5 # Number indicating how many principal components should be computed.
+#  )
 
-## ---- echo = FALSE, results = "hide", eval = !inherits(gse, "try-error")------
-unlink(file.path(tempdir(), "GSE70970"), recursive = TRUE)
+## ----echo = FALSE, results = "hide", eval = !inherits(gse, "try-error")-------
+#  unlink(file.path(tempdir(), "GSE70970"), recursive = TRUE)
 
 ## -----------------------------------------------------------------------------
 #  visualise(GSE70970_sum)
 
 ## ----ex5, eval = !inherits(gse, "try-error")----------------------------------
-print(GSE70970_sum[["housekeeping_genes"]])
+#  print(GSE70970_sum[["housekeeping_genes"]])
 
 ## ----intext, eval = !inherits(gse, "try-error"), echo = FALSE, results = "asis"----
-cat(
-  "Let's say _", GSE70970_sum[["housekeeping_genes"]][1],
-  "_ and _", GSE70970_sum[["housekeeping_genes"]][2],
-  "_ are not suitable, therefore, you want to exclude these genes from the normalisation process.",
-  sep = ""
-)
+#  cat(
+#    "Let's say _", GSE70970_sum[["housekeeping_genes"]][1],
+#    "_ and _", GSE70970_sum[["housekeeping_genes"]][2],
+#    "_ are not suitable, therefore, you want to exclude these genes from the normalisation process.",
+#    sep = ""
+#  )
 
-## ---- eval = !inherits(gse, "try-error")--------------------------------------
-my_housekeeping <- GSE70970_sum[["housekeeping_genes"]][-c(1, 2)]
-print(my_housekeeping)
+## ----eval = !inherits(gse, "try-error")---------------------------------------
+#  my_housekeeping <- GSE70970_sum[["housekeeping_genes"]][-c(1, 2)]
+#  print(my_housekeeping)
 
 ## ----ex7, eval = !inherits(gse, "try-error")----------------------------------
-GSE70970_norm <- normalise(
-  nacho_object = GSE70970_sum,
-  housekeeping_genes = my_housekeeping,
-  housekeeping_predict = FALSE,
-  housekeeping_norm = TRUE,
-  normalisation_method = "GEO",
-  remove_outliers = TRUE
-)
+#  GSE70970_norm <- normalise(
+#    nacho_object = GSE70970_sum,
+#    housekeeping_genes = my_housekeeping,
+#    housekeeping_predict = FALSE,
+#    housekeeping_norm = TRUE,
+#    normalisation_method = "GEO",
+#    remove_outliers = TRUE
+#  )
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  autoplot(
 #    object = GSE74821,
 #    x = "BD",
@@ -127,7 +127,7 @@ GSE70970_norm <- normalise(
 #    show_legend = TRUE
 #  )
 
-## ---- echo = FALSE, results = "asis"------------------------------------------
+## ----echo = FALSE, results = "asis"-------------------------------------------
 metrics <- c(
   "BD" = "Binding Density",
   "FoV" = "Imaging",
@@ -162,7 +162,7 @@ for (imetric in seq_along(metrics)) {
 ## ----app-fig, echo = FALSE, out.width = "650px"-------------------------------
 knitr::include_graphics(path = "README-app.png")
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  render(
 #    nacho_object = GSE74821,
 #    colour = "CartridgeID",

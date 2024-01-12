@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 ## ----logo, echo = FALSE, out.width = "150px"----------------------------------
 knitr::include_graphics(path = "nacho_hex.png")
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  # Install NACHO from CRAN:
 #  install.packages("NACHO")
 #  
@@ -26,13 +26,13 @@ knitr::include_graphics(path = "nacho_hex.png")
 #  # install.packages("remotes")
 #  remotes::install_github("mcanouil/NACHO")
 
-## ---- echo = FALSE, results = "asis"------------------------------------------
+## ----echo = FALSE, results = "asis"-------------------------------------------
 cat(readLines(system.file("app", "www", "about-nacho.md", package = "NACHO"))[-c(1, 2)], sep = "\n")
 
-## ---- echo = FALSE, results = "asis"------------------------------------------
+## ----echo = FALSE, results = "asis"-------------------------------------------
 print(citation("NACHO"), "html")
 
-## ---- echo = FALSE, comment = ""----------------------------------------------
+## ----echo = FALSE, comment = ""-----------------------------------------------
 print(citation("NACHO"), "bibtex")
 
 ## -----------------------------------------------------------------------------
@@ -67,7 +67,7 @@ selected_pheno <- GSE70970[["nacho"]][
 ]
 selected_pheno <- na.exclude(selected_pheno)
 
-## ---- echo = FALSE------------------------------------------------------------
+## ----echo = FALSE-------------------------------------------------------------
 head(selected_pheno)
 
 ## -----------------------------------------------------------------------------
@@ -80,10 +80,10 @@ expr_counts <- GSE70970[["nacho"]][
   .SDcols = c("IDFILE", "Name", "Count_Norm")
 ]
 
-## ---- echo = FALSE------------------------------------------------------------
+## ----echo = FALSE-------------------------------------------------------------
 expr_counts[1:5, 1:5]
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  GSE70970[["nacho"]][
 #    i = grepl("Endogenous", CodeClass),
 #    j = as.matrix(
