@@ -21,11 +21,13 @@ qc_features <- function(data, id_colname) {
         negatives = negatives
       )
     } else {
-      pcl <- 0
-      lod <- 0
+      pcl <- NA_real_
+      lod <- NA_real_
     }
     fov <- qc_imaging(
-      fov_counted = as.numeric(unique(.data[["Lane_Attributes.lane_FovCounted"]])),
+      fov_counted = as.numeric(unique(.data[[
+        "Lane_Attributes.lane_FovCounted"
+      ]])),
       fov_count = as.numeric(unique(.data[["Lane_Attributes.lane_FovCount"]]))
     )
 
@@ -40,7 +42,7 @@ qc_features <- function(data, id_colname) {
       "StagePosition" = unique(.data[["Lane_Attributes.lane_StagePosition"]]),
       "CartridgeID" = unique(.data[["Lane_Attributes.lane_CartridgeID"]]),
       "FoV" = fov,
-      "PCL" = ifelse(is.na(pcl), 0, pcl),
+      "PCL" = pcl,
       "LoD" = lod,
       "MC" = mean_count,
       "MedC" = median_count
@@ -50,7 +52,10 @@ qc_features <- function(data, id_colname) {
     x = do.call("rbind", output),
     keep.rownames = id_colname
   )
-  metrics_in <- intersect(names(output), c("BD", "FoV", "PCL", "LoD", "MC", "MedC"))
+  metrics_in <- intersect(
+    names(output),
+    c("BD", "FoV", "PCL", "LoD", "MC", "MedC")
+  )
   output[
     j = c(metrics_in) := lapply(.SD, as.numeric),
     .SDcols = c(metrics_in)

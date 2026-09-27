@@ -1,7 +1,7 @@
 #' read_tags
 #'
 #' @param tag [[character]] A `character` string naming the TAG field in the RCC files.
-#' @param raw_rcc [[character]]  A `character` vector containing all lines from a RCC file.
+#' @param raw_rcc [[character]]  A `character` vector containing all lines from an RCC file.
 #'
 #' @keywords internal
 #' @usage NULL
@@ -20,7 +20,7 @@ read_tags <- function(tag, raw_rcc) {
   if (tag != "Code_Summary") {
     tag_content <- format_tag_content(tag = tag, content = tag_content)
   } else {
-    tag_content <- as.data.frame(tag_content, stringsAsFactors = FALSE)
+    tag_content <- as.data.frame(tag_content)
   }
 
   list(tag_content)

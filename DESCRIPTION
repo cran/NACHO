@@ -1,7 +1,7 @@
 Type: Package
 Package: NACHO
 Title: NanoString Quality Control Dashboard
-Version: 2.0.6
+Version: 2.0.7
 Authors@R: 
     c(person(given = "Mickaël",
              family = "Canouil",
@@ -32,23 +32,25 @@ Description: NanoString nCounter data are gene expression assays
 License: GPL-3
 URL: https://github.com/mcanouil/NACHO/, https://m.canouil.dev/NACHO/
 BugReports: https://github.com/mcanouil/NACHO/issues
-Depends: R (>= 3.6.0)
-Imports: utils, data.table, ggplot2 (>= 3.3.0), ggforce (>= 0.3.1),
-        ggrepel (>= 0.8.1), knitr (>= 1.25), rmarkdown (>= 1.16), shiny
-        (>= 1.4.0), shinyWidgets (>= 0.4.9)
-Suggests: roxygen2 (>= 7.2.0), testthat (>= 2.2.1), covr (>= 3.3.2),
-        Biobase, GEOquery, limma
+Depends: R (>= 4.1.0)
+Imports: utils, data.table, ggplot2 (>= 4.0.0), ggforce (>= 0.5.0),
+        ggrepel (>= 0.9.6), knitr (>= 1.39), rmarkdown (>= 1.16),
+        scales (>= 1.4.0), shiny (>= 1.7.4), shinyWidgets (>= 0.4.9)
+Suggests: markdown (>= 1.3), roxygen2 (>= 8.1.0), testthat (>= 3.1.5),
+        withr, covr (>= 3.3.2), Biobase, GEOquery, limma
 VignetteBuilder: knitr
 Encoding: UTF-8
+Language: en-GB
 LazyData: true
-RoxygenNote: 7.3.0
-SystemRequirements: pandoc (>= 1.14), pandoc-citeproc
+SystemRequirements: pandoc (>= 2.11)
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.1.0
 NeedsCompilation: no
-Packaged: 2024-01-12 18:55:29 UTC; mcanouil
-Author: Mickaël Canouil [aut, cre] (<https://orcid.org/0000-0002-3396-4549>),
-  Roderick Slieker [aut] (<https://orcid.org/0000-0003-0961-9152>),
+Packaged: 2026-09-27 10:34:56 UTC; runner
+Author: Mickaël Canouil [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-3396-4549>),
+  Roderick Slieker [aut] (ORCID: <https://orcid.org/0000-0003-0961-9152>),
   Gerard Bouland [aut]
 Maintainer: Mickaël Canouil <pro@mickael.canouil.dev>
 Repository: CRAN
-Date/Publication: 2024-01-12 19:10:02 UTC
+Date/Publication: 2026-09-27 11:10:02 UTC

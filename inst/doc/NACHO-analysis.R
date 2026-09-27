@@ -1,42 +1,39 @@
-## ----setup, include = FALSE---------------------------------------------------
+## -----------------------------------------------------------------------------
 knitr::opts_chunk$set(
   eval = TRUE,
   collapse = TRUE,
-  # results = "asis",
   include = TRUE,
   echo = TRUE,
   warning = TRUE,
   message = TRUE,
   error = TRUE,
-  # tidy = FALSE,
-  # crop = TRUE,
-  # autodep = TRUE,
   fig.align = "center",
   cache = FALSE
 )
 
-## ----logo, echo = FALSE, out.width = "150px"----------------------------------
+## -----------------------------------------------------------------------------
 knitr::include_graphics(path = "nacho_hex.png")
 
-## ----eval = FALSE-------------------------------------------------------------
-#  # Install NACHO from CRAN:
-#  install.packages("NACHO")
-#  
-#  # Or the the development version from GitHub:
-#  # install.packages("remotes")
-#  remotes::install_github("mcanouil/NACHO")
+## -----------------------------------------------------------------------------
+# # Install NACHO from CRAN:
+# install.packages("NACHO")
+# 
+# # Or the development version from GitHub:
+# # install.packages("pak")
+# pak::pak("mcanouil/NACHO")
 
-## ----echo = FALSE, results = "asis"-------------------------------------------
+## -----------------------------------------------------------------------------
 cat(readLines(system.file("app", "www", "about-nacho.md", package = "NACHO"))[-c(1, 2)], sep = "\n")
 
-## ----echo = FALSE, results = "asis"-------------------------------------------
+## -----------------------------------------------------------------------------
 print(citation("NACHO"), "html")
 
-## ----echo = FALSE, comment = ""-----------------------------------------------
+## -----------------------------------------------------------------------------
 print(citation("NACHO"), "bibtex")
 
 ## -----------------------------------------------------------------------------
 library(NACHO)
+library(data.table)
 library(GEOquery, quietly = TRUE, warn.conflicts = FALSE)
 
 ## -----------------------------------------------------------------------------
@@ -52,7 +49,19 @@ untar(
 )
 # Get phenotypes and add IDs
 targets <- pData(phenoData(gse[[1]]))
-targets$IDFILE <- list.files(data_directory)
+rcc_files <- list.files(data_directory, pattern = "\\.RCC(\\.gz)?$", ignore.case = TRUE)
+targets$IDFILE <- rcc_files[match(targets$geo_accession, sub("_.*", "", rcc_files))]
+targets <- targets[!is.na(targets$IDFILE), ]
+# Keep the samples measured with the same CodeSet
+codeset <- vapply(
+  X = file.path(data_directory, targets$IDFILE),
+  FUN = function(file) {
+    header <- grep("^GeneRLF,", readLines(file, n = 40), value = TRUE)
+    if (length(header) == 0) NA_character_ else header[1]
+  },
+  FUN.VALUE = character(1)
+)
+targets <- targets[codeset %in% "GeneRLF,NS_H_miR_1.4", ]
 
 ## -----------------------------------------------------------------------------
 GSE70970 <- load_rcc(data_directory, targets, id_colname = "IDFILE")
@@ -67,7 +76,7 @@ selected_pheno <- GSE70970[["nacho"]][
 ]
 selected_pheno <- na.exclude(selected_pheno)
 
-## ----echo = FALSE-------------------------------------------------------------
+## -----------------------------------------------------------------------------
 head(selected_pheno)
 
 ## -----------------------------------------------------------------------------
@@ -80,18 +89,18 @@ expr_counts <- GSE70970[["nacho"]][
   .SDcols = c("IDFILE", "Name", "Count_Norm")
 ]
 
-## ----echo = FALSE-------------------------------------------------------------
+## -----------------------------------------------------------------------------
 expr_counts[1:5, 1:5]
 
-## ----eval = FALSE-------------------------------------------------------------
-#  GSE70970[["nacho"]][
-#    i = grepl("Endogenous", CodeClass),
-#    j = as.matrix(
-#      dcast(.SD, Accession ~ IDFILE, value.var = "Count_Norm"),
-#      "Accession"
-#    ),
-#    .SDcols = c("IDFILE", "Accession", "Count_Norm")
-#  ]
+## -----------------------------------------------------------------------------
+# GSE70970[["nacho"]][
+#   i = grepl("Endogenous", CodeClass),
+#   j = as.matrix(
+#     dcast(.SD, Accession ~ IDFILE, value.var = "Count_Norm"),
+#     "Accession"
+#   ),
+#   .SDcols = c("IDFILE", "Accession", "Count_Norm")
+# ]
 
 ## -----------------------------------------------------------------------------
 samples_kept <- intersect(selected_pheno[["IDFILE"]], colnames(expr_counts))

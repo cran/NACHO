@@ -1,7 +1,7 @@
 #' Visualise quality-control metrics of a "nacho" object
 #'
-#' This function allows to visualise results from [`load_rcc()`] or [`normalise()`]
-#' several quality-control metrics in an interactive shiny application,
+#' This function visualises results from [`load_rcc()`] or [`normalise()`]
+#' several quality-control metrics in an interactive Shiny application,
 #' in which thresholds can be customised and exported.
 #'
 #' @inheritParams normalise
@@ -87,9 +87,11 @@ visualise <- function(nacho_object) {
     "nacho",
     "outliers_thresholds"
   )
-  if (!all(mandatory_fields%in%names(nacho_object))) {
+  if (!all(mandatory_fields %in% names(nacho_object))) {
     stop(
-      '[NACHO] Mandatory fields are missing in "', substitute(nacho_object), '"!\n',
+      '[NACHO] Mandatory fields are missing in "',
+      substitute(nacho_object),
+      '"!\n',
       '  "load_rcc()" and/or "normalise()" must be called before "visualise()".'
     )
   }
@@ -99,12 +101,18 @@ visualise <- function(nacho_object) {
   on.exit(shiny::shinyOptions(nacho_object = NULL))
 
   if (!interactive()) {
-    stop('[NACHO] Must be run in an interactive R session!')
+    stop("[NACHO] Must be run in an interactive R session!")
+  }
+
+  if (!requireNamespace("markdown", quietly = TRUE)) {
+    stop(
+      "[NACHO] The \"markdown\" package is required to run the app.\n",
+      "  Install it with install.packages(\"markdown\")."
+    )
   }
 
   shiny::runApp(system.file("app", package = "NACHO"))
 }
-
 
 
 #' @export

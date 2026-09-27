@@ -1,6 +1,6 @@
-#' Render a HTML report of a "nacho" object
+#' Render an HTML report of a "nacho" object
 #'
-#' This function create a Rmarkdown script and render it as a HTML document.
+#' This function creates an R Markdown script and renders it as an HTML document.
 #' The HTML document is a quality-control report using all the metrics from [`visualise()`]
 #' based on recommendations from NanoString.
 #'
@@ -15,7 +15,7 @@
 #'   Please note that any directory path provided will create any necessary directories if they do not exist.
 #' @param size [[numeric]] A numeric controlling point size
 #'   ([`ggplot2::geom_point()`]
-#'   or line size ([`ggplot2::geom_line()`]).
+#'   or line width ([`ggplot2::geom_line()`]).
 #' @param show_legend [[logical]] Boolean to indicate whether the plot legends should
 #'   be plotted (`TRUE`) or not (`FALSE`). Default is `TRUE`.
 #' @param show_outliers [[logical]] Boolean to indicate whether the outliers should be highlighted
@@ -23,7 +23,7 @@
 #' @param outliers_factor [[numeric]] Size factor for outliers compared to `size`. Default is `1`.
 #' @param outliers_labels [[character]] Character to indicate which column in `nacho_object$nacho`
 #'   should be used to be printed as the labels for outliers or not. Default is `NULL`.
-#' @param clean [[logical]] Boolean to indicate whether the Rmd and Rdata file used to produce the HTML report
+#' @param clean [[logical]] Boolean to indicate whether the Rmd and RData files used to produce the HTML report
 #'   are removed from `output_dir`. Default is `TRUE`.
 #'
 #' @return NULL
@@ -65,9 +65,14 @@ render <- function(
   cat(
     "---",
     'title: "NanoString Quality-Control Report"',
-    # 'author: "[NACHO](https://mcanouil.github.io/NACHO)"',
     "params:",
     "  nacho_object: NULL",
+    "  colour: NULL",
+    "  size: NULL",
+    "  show_legend: NULL",
+    "  show_outliers: NULL",
+    "  outliers_factor: NULL",
+    "  outliers_labels: NULL",
     "output:",
     "  html_document:",
     "    theme: simplex",
@@ -83,8 +88,9 @@ render <- function(
     "    df_print: kable",
     "---",
     "\n",
-    "```{r setup, include = FALSE}",
-    "options(stringsAsFactors = FALSE)",
+    "```{r}",
+    "#| label: setup",
+    "#| include: false",
     "knitr::opts_chunk$set(",
     '  results = "asis",',
     "  include = TRUE,",
@@ -96,31 +102,28 @@ render <- function(
     "  autodep = TRUE,",
     '  fig.align = "center"',
     ")",
-    # "library(NACHO)",
     "```",
     "\n",
-    "```{r logo, out.width = 150}",
+    "```{r}",
+    "#| label: logo",
+    "#| out-width: 150px",
+    '#| fig-alt: "NACHO hexagonal logo."',
     "knitr::include_graphics(",
-    "  grep(",
-    '    pattern = file.path("figures", "nacho_hex.png"),',
-    "      x = list.files(",
-    '      path = system.file(package = "NACHO"),',
-    "      recursive = TRUE,",
-    "      full.names = TRUE",
-    "    ), value = TRUE",
-    "  )",
+    paste0("  path = ", encodeString(logo_path(), quote = '"'), ","),
+    "  rel_path = FALSE",
     ")",
     "```",
     "\n",
-    "```{r nacho-qc}",
+    "```{r}",
+    "#| label: nacho-qc",
     "print.nacho(",
     '  x = params[["nacho_object"]],',
-    paste0('  colour = "', colour, '",'),
-    paste0("  size = ", size, ","),
-    paste0("  show_legend = ", show_legend, ","),
-    paste0("  show_outliers = ", show_outliers, ","),
-    paste0("  outliers_factor = ", outliers_factor, ","),
-    paste0("  outliers_labels = ", outliers_labels, ","),
+    '  colour = params[["colour"]],',
+    '  size = params[["size"]],',
+    '  show_legend = params[["show_legend"]],',
+    '  show_outliers = params[["show_outliers"]],',
+    '  outliers_factor = params[["outliers_factor"]],',
+    '  outliers_labels = params[["outliers_labels"]],',
     "  echo = TRUE",
     ")",
     "```",
@@ -136,7 +139,15 @@ render <- function(
     output_dir = output_dir,
     encoding = "UTF-8",
     quiet = TRUE,
-    params = list(nacho_object = nacho_object)
+    params = list(
+      nacho_object = nacho_object,
+      colour = colour,
+      size = size,
+      show_legend = show_legend,
+      show_outliers = show_outliers,
+      outliers_factor = outliers_factor,
+      outliers_labels = outliers_labels
+    )
   )
 
   if (clean) {

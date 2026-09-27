@@ -2,25 +2,26 @@ bibentry(
   bibtype = "Article",
   header = "To cite NACHO in publications use:",
   title = "{NACHO}: an {R} package for quality control of {NanoString} {nCounter} data",
-  author = paste(
-    "Mickaël Canouil [aut, cre]",
-    "Gerard A. Bouland [aut]",
-    "Amélie Bonnefond [rev]",
-    "Philippe Froguel [rev]",
-    "Leen Hart [rev]",
-    "Roderick Slieker [aut]",
-    sep = ", "
+  author = c(
+    person(given = "Mickaël", family = "Canouil", role = c("aut", "cre")),
+    person(given = c("Gerard", "A."), family = "Bouland", role = "aut"),
+    person(given = "Amélie", family = "Bonnefond", role = "rev"),
+    person(given = "Philippe", family = "Froguel", role = "rev"),
+    person(given = c("Leen", "M."), family = "'t Hart", role = "rev"),
+    person(given = c("Roderick", "C."), family = "Slieker", role = "aut")
   ),
   journal = "Bioinformatics",
-  address = "Oxford, England",
-  year = "2019",
-  month = "aug",
+  year = "2020",
+  month = "feb",
+  volume = "36",
+  number = "3",
+  pages = "970--971",
   issn = "1367-4803",
   doi = "10.1093/bioinformatics/btz647",
   textVersion = paste(
-    "Canouil, M., Bouland, G. A., Bonnefond, A., Froguel, P., 't Hart, L. M., & Slieker, R. C. (2019).",
+    "Canouil, M., Bouland, G. A., Bonnefond, A., Froguel, P., 't Hart, L. M., & Slieker, R. C. (2020).",
     '"NACHO: an R package for quality control of NanoString nCounter data".',
-    "Bioinformatics (Oxford, England).",
+    "Bioinformatics, 36(3), 970-971.",
     "doi: 10.1093/bioinformatics/btz647"
   )
 )
