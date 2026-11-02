@@ -1,6 +1,6 @@
-260b506162bad5cc516ecf3e44984431 *DESCRIPTION
+f3a831c438224879fbf18c37fdecc93c *DESCRIPTION
 f41f7622a8bfd762e9351f58cc06293e *NAMESPACE
-582cf9e521684dd0d13dfe9031de8817 *NEWS.md
+18d6a06353b42c3d4c3d8973601da557 *NEWS.md
 797924413a1d8b2a9f7d3f33af6c6ff0 *R/GSE74821.R
 0a7e48c0193f0be0bc3485dbb3bb5287 *R/NACHO-package.R
 ecca66acee25b14784c806a32829fd55 *R/accessors.R
@@ -42,7 +42,7 @@ a856552755fccf82275d7afa8f64da7d *R/thresholds.R
 87baed94898d1e81ae70901cbb2fedc7 *README.md
 29cf7d47d34a2b0e7ae0e2046f2d132b *build/partial.rdb
 69f58982dc1716b45a2b33a87b8c45e5 *build/vignette.rds
-a48bccb0c5bed551c1bd871a8943c343 *data/GSE74821.rda
+604b2924d1f123f57a4c0abd91d14367 *data/GSE74821.rda
 bdbfadc7143a39a633169f629aa407e7 *inst/CITATION
 6c4bf448026416349951391a6af4f4ae *inst/COPYRIGHTS
 b2612bd85ab589eaa82033241bbaa222 *inst/about/about-bd.md
@@ -66,7 +66,7 @@ c056d313af09e05a5912778e0834bece *inst/brand/fonts/SourceSans3-Regular.ttf
 4e7c88d9934a42c3be82f4f5342eea48 *inst/brand/nacho_hex.png
 4807de463b83cc409b1b895323690d19 *inst/doc/NACHO.R
 beddd63f594ac11a9d084fa293762330 *inst/doc/NACHO.Rmd
-59ca7876be5157247f49c07ce8a134d9 *inst/doc/NACHO.html
+992846bef42aaad2ac97e751364df260 *inst/doc/NACHO.html
 e174ff676cd98c49cc4462730e0b5814 *inst/extdata/GSE178516/GSM5393247_S02.RCC.gz
 48698b1c9eb6e7dda18ad6ecece0f612 *inst/extdata/GSE178516/GSM5393248_S13.RCC.gz
 f377ecb8be6fc38014cbf085ddc36e4c *inst/extdata/GSE178516/GSM5393250_S15.RCC.gz
@@ -217,7 +217,7 @@ bcb9c064b1d0a55be980d659d294e86c *tests/testthat/test-methods.R
 a948aa398a902121354b45544dfe05fa *tests/testthat/test-mirna.R
 9020f671be4d1e8506587f5fe8c57176 *tests/testthat/test-mod_batch.R
 db33815d853057d5461e5cc9cd2ea32c *tests/testthat/test-mod_data.R
-d6ddf47bb5fa907fc35fded414d68a3f *tests/testthat/test-mod_export.R
+99a3e3ce500175372f35053b6a168845 *tests/testthat/test-mod_export.R
 2bdde369d968784c71275201203862d7 *tests/testthat/test-mod_outliers.R
 0d36e28d3130cc55da4320953f16f800 *tests/testthat/test-mod_overview.R
 f80e61f15200b2e7e4fb0a6239dc43a0 *tests/testthat/test-mod_qc_plot.R

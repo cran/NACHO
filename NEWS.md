@@ -1,3 +1,10 @@
+# NACHO 3.0.1
+
+## Tests
+
+- In `tests/testthat/test-mod_export.R`,
+  - test: The check that the R script reproduces the app allows last-bit differences, so it passes with BLAS libraries such as MKL. (#166)
+
 # NACHO 3.0.0
 
 ## Breaking changes

@@ -1,7 +1,7 @@
 Type: Package
 Package: NACHO
 Title: NanoString Quality Control Dashboard
-Version: 3.0.0
+Version: 3.0.1
 Authors@R: 
     c(person(given = "Mickaël",
              family = "Canouil",
@@ -67,11 +67,11 @@ Collate: 'GSE74821.R' 'NACHO-package.R' 'thresholds.R' 'qc.R'
         'methods.R' 'normalise.R' 'plot_worker.R' 'read_nacho.R'
         'read_rcc.R' 'utils.R' 'visualise.R' 'zzz.R'
 NeedsCompilation: no
-Packaged: 2026-11-01 21:14:38 UTC; runner
+Packaged: 2026-11-02 12:58:15 UTC; runner
 Author: Mickaël Canouil [aut, cre] (ORCID:
     <https://orcid.org/0000-0002-3396-4549>),
   Roderick Slieker [aut] (ORCID: <https://orcid.org/0000-0003-0961-9152>),
   Gerard Bouland [aut]
 Maintainer: Mickaël Canouil <pro@mickael.canouil.dev>
 Repository: CRAN
-Date/Publication: 2026-11-01 21:50:02 UTC
+Date/Publication: 2026-11-02 14:00:14 UTC
