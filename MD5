@@ -1,6 +1,6 @@
-f3a831c438224879fbf18c37fdecc93c *DESCRIPTION
+0dd8520f5b6ee7583284439a7eb3b69f *DESCRIPTION
 f41f7622a8bfd762e9351f58cc06293e *NAMESPACE
-18d6a06353b42c3d4c3d8973601da557 *NEWS.md
+1c2cc50cf5b78235c63a262ee8a0d072 *NEWS.md
 797924413a1d8b2a9f7d3f33af6c6ff0 *R/GSE74821.R
 0a7e48c0193f0be0bc3485dbb3bb5287 *R/NACHO-package.R
 ecca66acee25b14784c806a32829fd55 *R/accessors.R
@@ -38,7 +38,7 @@ a856552755fccf82275d7afa8f64da7d *R/thresholds.R
 85671c53262e70831900d39b84b76bea *R/tour.R
 855bfaaa4e614794a1570b6e7c261df5 *R/utils.R
 886ef913f2f786f03af232bc14e4e5f9 *R/visualise.R
-25988f076f193fac3c3c9812d20c976a *R/zzz.R
+9930125f4e62ec89417f17d97f8a0a9c *R/zzz.R
 87baed94898d1e81ae70901cbb2fedc7 *README.md
 29cf7d47d34a2b0e7ae0e2046f2d132b *build/partial.rdb
 69f58982dc1716b45a2b33a87b8c45e5 *build/vignette.rds
@@ -66,7 +66,7 @@ c056d313af09e05a5912778e0834bece *inst/brand/fonts/SourceSans3-Regular.ttf
 4e7c88d9934a42c3be82f4f5342eea48 *inst/brand/nacho_hex.png
 4807de463b83cc409b1b895323690d19 *inst/doc/NACHO.R
 beddd63f594ac11a9d084fa293762330 *inst/doc/NACHO.Rmd
-992846bef42aaad2ac97e751364df260 *inst/doc/NACHO.html
+c46ff418d81d48a7d08e82a062f84c6a *inst/doc/NACHO.html
 e174ff676cd98c49cc4462730e0b5814 *inst/extdata/GSE178516/GSM5393247_S02.RCC.gz
 48698b1c9eb6e7dda18ad6ecece0f612 *inst/extdata/GSE178516/GSM5393248_S13.RCC.gz
 f377ecb8be6fc38014cbf085ddc36e4c *inst/extdata/GSE178516/GSM5393250_S15.RCC.gz
@@ -200,7 +200,7 @@ b46319584eff41226fafc9e8bcfa615b *tests/testthat/test-accessors.R
 a24d61642d085dcec9608011e6333c95 *tests/testthat/test-app-smoke.R
 535c7088dd36c162fe2f0acca8e3b0cd *tests/testthat/test-app.R
 a15ff1889d90e695049661d37acafb86 *tests/testthat/test-autoplot-snapshots.R
-fdaa4051cc7d16489f6f638931aedf57 *tests/testthat/test-autoplot.R
+235ef63fc3d42db830ec0653f4869366 *tests/testthat/test-autoplot.R
 ee5906f11d5fd52540585a3aff6e8ae2 *tests/testthat/test-background.R
 4ec0c15a3a975476f3bb21a4d57df261 *tests/testthat/test-batch.R
 82df27a7d5f49fc396502d7341b15f1c *tests/testthat/test-brand.R
